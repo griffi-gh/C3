@@ -1,0 +1,152 @@
+TODO: write better docs
+
+C3 ARCHITECTURE
+NOTE: this document sucks
+
+//MEMORY
+
+32kb ..... ROM
+32kb ..... RAM
+
+(((
+TODO:
+32kb ..... ROM
+31.75kb .. RAM
+0.25kb ... I/O RAM
+)))
+
+// MEMORY MAP
+
+[$00-$7F] ROM 
+switchable banks $00-$FF
+
+[$80-$FF] RAM 
+switchable banks $00-$FF
+
+(TODO: RAM banks $FE-$FF should be mapped to I/O ram instead.
+they can be used by the connected device
+while *NOT* selected or in IOWAIT)
+(TODO:TODO: banks are annoying! find a way to solve this problem)
+
+//IO
+
+">" - out; "<" - in
+
+> CLK
+
+> IO_TRIGGER_TICK
+> IO_OUT
+< IO_IN
+< IO_WAIT_TICK
+
+I/O MEMORY:
+MEM Pins access the main ram chip, only accessible during IOWAIT.
+it's recommended to switch bank to FE/FF before halting, as it's a standard place to store i/o data
+
+> MEM_READY
+> MEM_OUT
+< MEM_ADDR
+< MEM_VAL
+< MEM_WRT
+< MEM_READ
+
+TODO:
+MEM Pins should use separate I/O RAM instead
+
+//IO DEVICES
+
+NONE
+SLOT: 0
+Slot 0 should always be a stub.  
+value of IO_OUT gets mirrored to IO_IN
+
+GPU
+SLOT: 1
+
+  TODO
+
+KEYBOARD
+SLOT: 3
+
+IO_TRIGGER_TICK & IO_OUT = $01
+Write last pressed key to IO_IN
+
+IO_TRIGGER_TICK & IO_OUT = $02
+Write time since last key
+press to IO_IN
+
+IO_TRIGGER_TICK & IO_OUT = $03
+Wait for key press, write to IO_IN
+Triggers IO_WAIT_TICK
+Completely blocks all triggers ticks
+Use example:
+(waits for key press and writes
+ it to register A)
+IOSLOT 2
+LD A,3
+IOWRT
+IOTRIG
+IOWAIT
+IOREAD A
+
+OTHER SLOTS
+Slots $08-$FF are not reserved for anyting
+
+// REGISTERS
+4 8-bit general-purpose registers (A,B,C,D)
+2 1-bit flag registers (Zero,Carry)
+8-bit PC
+
+//INSTRUCTION FORMAT
+
+xhhiiiii
+i - instruction
+h - register select (high bits)
+x - instruction set (0-default,1-extended)
+
+//INSTRS
+
+NOP
+RESET
+STOP
+BANK RAM,R // Switch RAM bank
+BANK ROM,R // Switch ROM bank
+LD R,A
+LD R,B
+LD R,C
+LD R,D
+LD R,[value]
+LD A,[R]
+LD [R],A
+ADD A,R
+SUB A,R
+SHR A,R
+SHL A,R
+NOT A
+INC R
+DEC R
+JP R //Jump to R
+JP !Z,R //Jump to R if Zero flag is not set
+JP Z,R //Jump to R if Zero flag is set
+IOWAIT // Halt the cpu and wait for IO_WAIT_TICK
+IOTRIG // Trigger IO_TRIGGER_TICK
+IOWRT R // Write value of register to IO_OUT
+IOREAD R // Store value of input register to R
+IOSLOT R // Switch current IO device
+
+// EXTENDED INSTRUCTION SET
+TODO
+
+// C3ASM
+
+Instr syntax:
+INSTRUCTION ARGUMENT_A,ARGUMENT_B
+
+// C3ASM special
+
+1) #BANK [i],[a]
+start writing to bank i at address a
+both arguments are optional, next bank will be selected by default
+
+2) REM or //
+Comment. space after // is mandatory
