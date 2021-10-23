@@ -55,11 +55,12 @@ BANK ROM,A
 	STOP
 #BANK 4 0x69
 	STOP
-	// expected register state:
-	// PC=$69
 	STOP
 #BANK 4 0xfe
 	STOP
 	STOP
+	
+// expected state:
+// STOP at PC=$69
 	
 	
