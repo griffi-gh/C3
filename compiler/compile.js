@@ -1,4 +1,5 @@
 "use strict";
+let filename = (process.argv.slice(2).join(' ') || 'PROGRAM.c3asm');
 const fs = require('fs');
 
 //const isNum = v => isNaN(parseInt(v));
@@ -62,7 +63,7 @@ function jumpTo(bank=0, addr=0) {
 }
 jumpTo();
 
-const file = fs.readFileSync('PROGRAM.c3asm','utf8');
+const file = fs.readFileSync(filename,'utf8');
 const lines = file.split('\n');
 lines.forEach((v,i) => {
   let cmd = v.trim().replace('\r','');
@@ -160,6 +161,6 @@ lines.forEach((v,i) => {
 
 //REMOVE UNNEEDED BANKS
 let _compiled = compiled.slice(0,banks*BANK_SIZE);
-fs.writeFileSync('PROGRAM.c3bin', Buffer.from(_compiled));
+fs.writeFileSync(filename.replace('.c3asm','.c3bin'), Buffer.from(_compiled));
 
 console.log('\nDone.');
