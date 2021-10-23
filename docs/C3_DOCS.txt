@@ -109,35 +109,37 @@ x - instruction set (0-default,1-extended)
 
 //INSTRS
 
-NOP
-RESET
-STOP
-BANK RAM,R // Switch RAM bank
-BANK ROM,R // Switch ROM bank
-LD R,A
-LD R,B
-LD R,C
-LD R,D
-LD R,[value]
-LD A,[R]
-LD [R],A
-ADD A,R
-SUB A,R
-MUL A,R
-CMP A,R
-SHR A,R
-SHL A,R
-NOT A
-INC R
-DEC R
-JP R //Jump to R
-JP !Z,R //Jump to R if Zero flag is not set
-JP Z,R //Jump to R if Zero flag is set
-IOWAIT // Halt the cpu and wait for IO_WAIT_TICK
-IOTRIG // Trigger IO_TRIGGER_TICK
-IOWRT R // Write value of register to IO_OUT
-IOREAD R // Store value of input register to R
-IOSLOT R // Switch current IO device
+00 - NOP
+01 - (NONE)
+02 - (NONE)
+03 - BANK RAM,R // Switch RAM bank
+04 - BANK ROM,R // Switch ROM bank
+05 - LD R,A
+06 - LD R,B
+07 - LD R,C
+08 - LD R,D
+09 - LD R,[value]
+0A - LD A,[R]
+0B - LD [R],A
+0D - ADD A,R
+0E - SUB A,R
+0F - MUL A,R
+10 - CMP A,R
+11 - JP R //Jump to R
+12 - JP !Z,R //Jump to R if Zero flag is not set
+13 - JP Z,R //Jump to R if Zero flag is set
+14 - JPBNK ROM,R //Switch ROM bank to A and jump to R
+15 - JPBNK RAM,R //Switch RAM bank to A and jump to R
+16 - IOWAIT // Halt the cpu and wait for IO_WAIT_TICK (TODO TIMEOUT)(TODO INTERRUPT)
+17 - IOTRIG // Trigger IO_TRIGGER_TICK
+18 - IOWRT R // Write value of register to IO_OUT
+19 - IOREAD R // Store value of input register to R
+1A - IOSLOT R // Switch current IO device
+1B - (NONE)
+1C - (NONE)
+1D - (NONE)
+1E - (NONE)
+1F - (NONE)
 
 // EXTENDED INSTRUCTION SET
 TODO
