@@ -108,10 +108,13 @@ h - register select (high bits)
 x - instruction set (0-default,1-extended)
 
 //INSTRS
+NOTE: (NONE) ops are treated exactly like NOP
+NOTE: most instrs are not implemented yet in 
+both compiler and cpu
 
 00 - NOP
 01 - (NONE)
-02 - (NONE)
+02 - STOP
 03 - BANK RAM,R // Switch RAM bank
 04 - BANK ROM,R // Switch ROM bank
 05 - LD R,A
@@ -156,5 +159,11 @@ INSTRUCTION ARGUMENT_A,ARGUMENT_B
 start writing to bank i at address a
 both arguments are optional, next bank will be selected by default
 
-2) REM or //
-Comment. space after // is mandatory
+2) REM or // ... or //...
+Comment.
+
+3) STR and DB
+//store nums
+DB 01 02 03
+//store string
+STR "HELLO WORLD?"

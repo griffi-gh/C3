@@ -1,5 +1,5 @@
 // initial A register determines the test
-LD A,3
+LD A,4
 BANK ROM,A
 
 // LOAD R,V TEST
@@ -9,6 +9,7 @@ BANK ROM,A
 	LD B,0x34
 	LD C,0x56
 	LD D,0x78
+	STOP
 	// expected register state:
 	// $12 $34 $56 $78
 
@@ -29,9 +30,10 @@ BANK ROM,A
 	LD A,[D]
 	LD B,A
 	LD A,[C]
+	STOP
 	// expected register state:
 	// $69 $69 $81 $ff
-
+	
 // ADD/SUB TEST
 #BANK 3
 	NOP 4
@@ -40,5 +42,24 @@ BANK ROM,A
 	ADD A,B
 	LD D,A
 	SUB A,B
+	STOP
 	// expected register state:
 	// $69 $11 $00 $7A
+
+// JUMP TEST
+#BANK 4 0x00
+    NOP 4
+	LD B,0x69
+	JUMP B
+	STOP
+	STOP
+#BANK 4 0x69
+	STOP
+	// expected register state:
+	// PC=$69
+	STOP
+#BANK 4 0xfe
+	STOP
+	STOP
+	
+	

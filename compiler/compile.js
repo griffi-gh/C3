@@ -30,6 +30,11 @@ let bankOffset = 0;
 let ptr = 0;
 let bank = 0;
 let banks = 1;
+const special = {
+  ['$next']: (isize) => {
+    return ptr - bankOffset + isize;
+  }
+}
 function handlePtrChange() {
   if((ptr-bankOffset) > BANK_SIZE) {
     throw new Error('Too much data in one bank!');
@@ -45,6 +50,12 @@ function pushOpcode(o,h,e) {
   handlePtrChange();
 }
 function pushData(v) {
+  if(Array.isArray(v)){
+    for(const x of v) {
+      pushData(x);
+    }
+    return;
+  }
   compiled[ptr++] = parseInt(v);
   process.stdout.write(`(${(parseInt(v&0xFF).toString(16))}) `);
   handlePtrChange();
@@ -64,7 +75,7 @@ function jumpTo(bank=0, addr=0) {
 jumpTo();
 
 const file = fs.readFileSync(filename,'utf8');
-const lines = file.split('\n');
+const lines = file.split('\n');1
 lines.forEach((v,i) => {
   let cmd = v.trim().replace('\r','');
   if(cmd.length < 1) return;
@@ -79,10 +90,16 @@ lines.forEach((v,i) => {
     case '#BANK':
       jumpTo(args[0] || (bank + 1),args[1]);
       break;
+    case 'NOOP':
     case 'NOP':
       for(let i=0; i<parseInt(args[0]|0); i++) {
         pushOpcode(0,0,false);
       }
+      break;
+    case 'STOP':
+    case 'STP':
+    case 'HCF':
+      pushOpcode(2,0);
       break;
     case 'BANK':
       if(1){
@@ -93,13 +110,17 @@ lines.forEach((v,i) => {
         pushOpcode(map[args[0].toUpperCase().trim()],args[1]);
       }
       break;
+    case 'LOAD':
     case 'LD':
       if(1){
         let a = args[0];
         let b = args[1];
-        if(!isNum(a) && isNum(b)) {
-          pushOpcode(9,a); // LD R,V
-          pushData(b);
+        if(!isNum(a) && (isNum(b) || b.startsWith('$'))) {
+          // LD R,V
+          pushOpcode(9,a);
+          b = b.toLowerCase();
+          let data = special[b] ? special[b](2) : parseInt(b);
+          pushData(data);
         } else {
           let acond = false;
           if(a.startsWith('[') && a.endsWith(']')){
@@ -145,20 +166,34 @@ lines.forEach((v,i) => {
         pushOpcode(opcode, b ? b : a);
       }
       break;
+    case 'DATA':
     case 'DB':
       for(const d of args) {
-        pushData(d);
+        pushData(d|0);
       }
+      break;
+    case 'STRING':
+    case 'STR':
+      if(args[0].startsWith('"') && args[args.length-1].endsWith('"')) {
+        pushData(args.join(' ').slice(1,-1).split(''));
+      } else {
+        throw new Error("Fucked up string.");
+      }
+      break;
+    case 'JUMP':
+    case 'JMP':
+    case 'JP':
+      pushOpcode(16,args[0]);
       break;
     case '//':
     case 'REM':
       break;
     default:
+      if(cmd.startsWith('//')) break;
       throw new Error('Invalid instruction: ' + cmd);
   }
   console.log('');
 });
-
 //REMOVE UNNEEDED BANKS
 let _compiled = compiled.slice(0,banks*BANK_SIZE);
 fs.writeFileSync(filename.replace('.c3asm','.c3bin'), Buffer.from(_compiled));
