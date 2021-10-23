@@ -93,9 +93,12 @@ OTHER SLOTS
 Slots $08-$FF are not reserved for anyting
 
 // REGISTERS
+
 4 8-bit general-purpose registers (A,B,C,D)
-2 1-bit flag registers (Zero,Carry)
-8-bit PC
+
+2 1-bit flag registers (Zero,Carry;can only be read indirectly)
+8-bit Freeze register (for internal use only)
+8-bit PC (write-only)
 
 //INSTRUCTION FORMAT
 

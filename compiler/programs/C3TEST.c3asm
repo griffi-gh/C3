@@ -1,5 +1,5 @@
 // initial A register determines the test
-LD A,1
+LD A,3
 BANK ROM,A
 
 // LOAD R,V TEST
