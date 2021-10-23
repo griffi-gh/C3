@@ -121,20 +121,21 @@ x - instruction set (0-default,1-extended)
 09 - LD R,[value]
 0A - LD A,[R]
 0B - LD [R],A
-0D - ADD A,R
-0E - SUB A,R
-0F - MUL A,R
-10 - CMP A,R
-11 - JP R //Jump to R
-12 - JP !Z,R //Jump to R if Zero flag is not set
-13 - JP Z,R //Jump to R if Zero flag is set
-14 - JPBNK ROM,R //Switch ROM bank to A and jump to R
-15 - JPBNK RAM,R //Switch RAM bank to A and jump to R
-16 - IOWAIT // Halt the cpu and wait for IO_WAIT_TICK (TODO TIMEOUT)(TODO INTERRUPT)
-17 - IOTRIG // Trigger IO_TRIGGER_TICK
-18 - IOWRT R // Write value of register to IO_OUT
-19 - IOREAD R // Store value of input register to R
-1A - IOSLOT R // Switch current IO device
+0C - ADD A,R
+0D - SUB A,R
+0E - MUL A,R
+0F - CMP A,R
+10 - JP R //Jump to R
+11 - JP !Z,R //Jump to R if Zero flag is not set
+12 - JP Z,R //Jump to R if Zero flag is set
+13 - JPBNK ROM,R //Switch ROM bank to A and jump to R
+14 - JPBNK RAM,R //Switch RAM bank to A and jump to R
+15 - IOWAIT // Halt the cpu and wait for IO_WAIT_TICK (TODO TIMEOUT)(TODO INTERRUPT)
+16 - IOTRIG // Trigger IO_TRIGGER_TICK
+17 - IOWRT R // Write value of register to IO_OUT
+18 - IOREAD R // Store value of input register to R
+19 - IOSLOT R // Switch current IO device
+1A - (NONE)
 1B - (NONE)
 1C - (NONE)
 1D - (NONE)
