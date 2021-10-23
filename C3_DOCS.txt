@@ -26,7 +26,7 @@ switchable banks $00-$FF
 (TODO: RAM banks $FE-$FF should be mapped to I/O ram instead.
 they can be used by the connected device
 while *NOT* selected or in IOWAIT)
-(TODO:TODO: banks are annoying! find a way to solve this problem)
+(TODO:TODO: banks are annoying! find a way to remove them)
 
 //IO
 
@@ -120,6 +120,8 @@ LD A,[R]
 LD [R],A
 ADD A,R
 SUB A,R
+MUL A,R
+CMP A,R
 SHR A,R
 SHL A,R
 NOT A

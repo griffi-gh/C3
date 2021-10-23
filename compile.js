@@ -8,6 +8,8 @@ const BANK_SIZE = 0x80;
 const ROM_SIZE = 0x8000;
 
 const REG_MAP = {a: 0, b: 1, c: 2, d: 3};
+const ALU_OP = {add:0, sub: 1, mul: 2, cmp: 3}
+
 function regIndex(r) {
   return REG_MAP[r.trim().toLowerCase()] | 0;
 }
@@ -82,45 +84,64 @@ lines.forEach((v,i) => {
       }
       break;
     case 'BANK':
-      let map = {
-        "RAM": 3,
-        "ROM": 4,
+      if(1){
+        let map = {
+          "RAM": 3,
+          "ROM": 4,
+        };
+        pushOpcode(map[args[0].toUpperCase().trim()],args[1]);
       }
-      pushOpcode(map[args[0].toUpperCase().trim()],args[1]);
       break;
     case 'LD':
-      let a = args[0];
-      let b = args[1];
-      if(!isNum(a) && isNum(b)) {
-        pushOpcode(9,a); // LD R,V
-        pushData(b);
-      } else {
-        let acond = false;
-        if(a.startsWith('[') && a.endsWith(']')){
-          acond = true;
-          if(regIndex(b)===0) {
-            let r = a.substring(1,a.length-1);
-            pushOpcode(11,r);
-          } else {
-            throw new Error("Only A can be used as source register in LD [R],A instruction");
-            return;
+      if(1){
+        let a = args[0];
+        let b = args[1];
+        if(!isNum(a) && isNum(b)) {
+          pushOpcode(9,a); // LD R,V
+          pushData(b);
+        } else {
+          let acond = false;
+          if(a.startsWith('[') && a.endsWith(']')){
+            acond = true;
+            if(regIndex(b)===0) {
+              let r = a.substring(1,a.length-1);
+              pushOpcode(11,r);
+            } else {
+              throw new Error("Only A can be used as source register in LD [R],A instruction");
+              return;
+            }
+          }
+          if(b.startsWith('[') && b.endsWith(']')){
+            if(acond) {
+              throw new Error("Cannot load from (mem) to (mem)");
+              return;
+            }
+            if(regIndex(a)===0) {
+              let r = b.substring(1,b.length-1);
+              pushOpcode(10,r);
+            } else {
+              throw new Error("Only A can be used as target register in LD A,[R] instruction");
+              return;
+            }
+          } else if(!acond) {
+            pushOpcode(5+regIndex(b),a); // LD R,R
           }
         }
-        if(b.startsWith('[') && b.endsWith(']')){
-          if(acond) {
-            throw new Error("Cannot load from (mem) to (mem)");
-            return;
-          }
-          if(regIndex(a)===0) {
-            let r = b.substring(1,b.length-1);
-            pushOpcode(10,r);
-          } else {
-            throw new Error("Only A can be used as target register in LD A,[R] instruction");
-            return;
-          }
-        } else if(!acond) {
-          pushOpcode(5+regIndex(b),a); // LD R,R
+      }
+      break;
+    case 'ADD':
+    case 'SUB':
+    case 'MUL':
+    case 'CMP':
+      if(1){
+        let a = args[0];
+        let b = args[1];
+        let opcode = 12+ALU_OP[cmd.toLowerCase()];
+        if(b && (regIndex(a)!==0)) {
+          throw new Error("Only A register can be used as target!");
+          return;
         }
+        pushOpcode(opcode, b ? b : a);
       }
       break;
     case 'DB':

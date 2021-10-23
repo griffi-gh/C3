@@ -1,25 +1,44 @@
-#BANK 0
+// initial A register determines the test
+LD A,1
+BANK ROM,A
 
-// init registers
-LD A,0x69
-LD C,0x81
-LD D,0xff
-NOP 2
+// LOAD R,V TEST
+#BANK 1
+	NOP 4
+	LD A,0x12
+	LD B,0x34
+	LD C,0x56
+	LD D,0x78
+	// expected register state:
+	// $12 $34 $56 $78
 
-// load into memory
-LD [C],A
-LD [D],A
-NOP 6
+// RAM READ/WRITE TEST
+#BANK 2
+	NOP 4
+	// init registers
+	LD A,0x69
+	LD C,0x81
+	LD D,0xff
+	// load into memory
+	LD [C],A
+	LD [D],A
+	// Reset registers
+	LD A,0
+	LD B,0
+	// read back
+	LD A,[D]
+	LD B,A
+	LD A,[C]
+	// expected register state:
+	// $69 $69 $81 $ff
 
-// Reset registers
-LD A,0
-LD B,0
-NOP 4
-
-// read back
-LD A,[D]
-LD B,A
-LD A,[C]
-
-// expected register state:
-// $69 $69 $01 $ff
+// ADD/SUB TEST
+#BANK 3
+	NOP 4
+	LD A,0x69
+	LD B,0x11
+	ADD A,B
+	LD D,A
+	SUB A,B
+	// expected register state:
+	// $69 $11 $00 $7A
