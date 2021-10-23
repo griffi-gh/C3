@@ -1,0 +1,21 @@
+#BANK 0
+// init registers
+LD A,0x69
+LD C,0x81
+LD D,0xff
+NOP 2
+// load into memory
+LD [C],A
+LD [D],A
+NOP 6
+// куыуе купы
+LD A,0
+LD B,0
+NOP 4
+// read back
+LD A,[D]
+LD B,A
+LD A,[C]
+
+// expected register state:
+// $69 $69 $01 $ff
