@@ -23,7 +23,7 @@ function assembleOpcode(o,h,e) {
   return o|(h<<5)||(e<<7);
 }
 
-const compiled = new Uint8Array(ROM_SIZE).fill(0);
+const compiled = new Uint16Array(ROM_SIZE).fill(0);
 
 let ptr = 0;
 const special = {
@@ -32,9 +32,6 @@ const special = {
   }
 }
 function handlePtrChange() {
-  if((ptr-bankOffset) > BANK_SIZE) {
-    throw new Error('Too much data in one bank!');
-  }
   if(ptr >= ROM_SIZE) {
     throw new Error('Out of bounds');
   }
@@ -53,18 +50,19 @@ function pushData(v) {
     return;
   }
   compiled[ptr++] = parseInt(v);
-  process.stdout.write(`(${(parseInt(v&0xFF).toString(16))}) `);
+  process.stdout.write(`(${(parseInt(v&0xFFFF).toString(16))}) `);
   handlePtrChange();
 }
 function jumpTo(addr) {
-  addr = parseInt(addr);
-  ptr = bankOffset + addr;
+  ptr = parseInt(addr);
   handlePtrChange();
 }
 jumpTo();
 
 const file = fs.readFileSync(filename,'utf8');
-const lines = file.split('\n');1
+const lines = file.split('\n');
+const labels = {};
+
 lines.forEach((v,i) => {
   let cmd = v.trim().replace('\r','');
   if(cmd.length < 1) return;
@@ -185,6 +183,11 @@ lines.forEach((v,i) => {
       break;
     default:
       if(cmd.startsWith('//')) break;
+      if(cmd.startsWith(':')) {
+        if(args[0]) jumpTo(args[0]);
+        labels[cmd.slice(1)] = ptr;
+        break;
+      }
       throw new Error('Invalid instruction: ' + cmd);
   }
   console.log('');
