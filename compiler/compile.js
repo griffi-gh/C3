@@ -25,13 +25,11 @@ function assembleOpcode(o,h,e) {
 
 const compiled = new Uint16Array(ROM_SIZE).fill(0);
 
-let filesize = 0;
 let ptr = 0;
 function handlePtrChange() {
   if(ptr >= ROM_SIZE) {
     throw new Error('Out of bounds');
   }
-  filesize = Math.max(filesize,ptr);
 }
 function pushOpcode(o,h,e) {
   if(typeof(h)=='string') h = regIndex(h);

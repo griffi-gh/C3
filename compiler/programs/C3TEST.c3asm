@@ -1,5 +1,6 @@
 // initial A register determines the test
-LD A,:TEST_LOAD_R_V
+#ADDR 0
+LD A,:TEST_RAM_RW
 JUMP A
 STOP
 
