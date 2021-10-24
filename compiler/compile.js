@@ -192,6 +192,7 @@ lines.forEach((v,i) => {
         case 'Z':
           pushOpcode(17,args[1]);
           break;
+        case '!Z':
         case 'NZ':
           pushOpcode(18,args[1]);
           break;

@@ -131,7 +131,7 @@ both compiler and cpu
 0E - MUL A,R
 0F - CMP A,R
 10 - JP R //Jump to R
-11 - JP !Z,R //Jump to R if Zero flag is not set
+11 - JP NZ,R //Jump to R if Zero flag is not set
 12 - JP Z,R //Jump to R if Zero flag is set
 13 - JPBNK ROM,R //Switch ROM bank to A and jump to R
 14 - JPBNK RAM,R //Switch RAM bank to A and jump to R
