@@ -1,5 +1,5 @@
 // initial A register determines the test
-LD A,4
+LD A,5
 BANK ROM,A
 
 // LOAD R,V TEST
@@ -47,20 +47,60 @@ BANK ROM,A
 	// $69 $11 $00 $7A
 
 // JUMP TEST
-#BANK 4 0x00
+#BANK 4,0x00
     NOP 4
-	LD B,0x69
+	LD B,0x20
 	JUMP B
 	STOP
 	STOP
-#BANK 4 0x69
+#BANK 4,0x1E
 	STOP
 	STOP
-#BANK 4 0xfe
+#BANK 4,0x20
+	LD B,0x22
+	JUMP B
+#BANK 4,0x40
 	STOP
 	STOP
+	// expected state:
+	// spinlooop at 0x22=success, stop=fail
+
+//CONDITIONAL JUMP TEST
+#BANK 5
+	NOP 4
+	LD B,0x10
+	LD A,1
+	SUB A,A
+	JP Z,B
+	STOP
+	STOP
+#BANK 5,0x10
+	LD B,0x20
+	LD A,10
+	LD C,1
+	SUB A,C
+	JP NZ,B
+#BANK 5,0x1E
+	STOP
+	STOP
+#BANK 5,0x20
+	LD A,10
+	LD B,10
+	LD C,0x32
+	CMP A,B
+	JP Z,C
+#BANK 5,0x2E
+	STOP
+	STOP
+#BANK 5,0x30
+	STOP
+	STOP
+#BANK 5,0x32
+	LD A,0x34
+	JUMP A
+	STOP
+	STOP
+	// expected state - jumploop at 0x34
+
 	
-// expected state:
-// STOP at PC=$69
-	
-	
+

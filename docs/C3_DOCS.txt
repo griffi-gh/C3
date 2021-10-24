@@ -17,10 +17,10 @@ TODO:
 
 // MEMORY MAP
 
-[$00-$7F] ROM 
+[$00-$7F] ROM
 switchable banks $00-$FF
 
-[$80-$FF] RAM 
+[$80-$FF] RAM
 switchable banks $00-$FF
 
 (TODO: RAM banks $FE-$FF should be mapped to I/O ram instead.
@@ -57,7 +57,7 @@ MEM Pins should use separate I/O RAM instead
 
 NONE
 SLOT: 0
-Slot 0 should always be a stub.  
+Slot 0 should always be a stub.
 value of IO_OUT gets mirrored to IO_IN
 
 GPU
@@ -94,11 +94,13 @@ Slots $08-$FF are not reserved for anyting
 
 // REGISTERS
 
-4 8-bit general-purpose registers (A,B,C,D)
-
+** 4 8-bit general-purpose registers (A,B,C,D) **
+Internal:
 2 1-bit flag registers (Zero,Carry;can only be read indirectly)
 8-bit Freeze register (for internal use only)
 8-bit PC (write-only)
+2 8-bit bank registers (write-only)
+8-bit MMU value register (can be accesed indirectly)
 
 //INSTRUCTION FORMAT
 
@@ -109,11 +111,11 @@ x - instruction set (0-default,1-extended)
 
 //INSTRS
 NOTE: (NONE) ops are treated exactly like NOP
-NOTE: most instrs are not implemented yet in 
+NOTE: most instrs are not implemented yet in
 both compiler and cpu
 
 00 - NOP
-01 - (NONE)
+01 - RST //Jump to 0 and reset Bank registers,A,B,C and D to 0. Does not clear the ram
 02 - STOP
 03 - BANK RAM,R // Switch RAM bank
 04 - BANK ROM,R // Switch ROM bank

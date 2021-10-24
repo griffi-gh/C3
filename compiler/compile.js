@@ -60,10 +60,11 @@ function pushData(v) {
   process.stdout.write(`(${(parseInt(v&0xFF).toString(16))}) `);
   handlePtrChange();
 }
-function jumpTo(bank=0, addr=0) {
-  bank = parseInt(bank);
+function jumpTo(_bank=0, addr=0) {
+  //console.log("jomp" + _bank + " " + addr)
+  bank = parseInt(_bank);
   addr = parseInt(addr);
-  if((bank < 0) || (bank > 0xFF)) {
+  if((_bank < 0) || (_bank > 0xFF)) {
     throw new Error('Bank out of bounds');
     return;
   }
@@ -95,6 +96,10 @@ lines.forEach((v,i) => {
       for(let i=0; i<parseInt(args[0]|0); i++) {
         pushOpcode(0,0,false);
       }
+      break;
+    case 'RST':
+    case 'RESET':
+      pushOpcode(1,0);
       break;
     case 'STOP':
     case 'STP':
@@ -183,7 +188,16 @@ lines.forEach((v,i) => {
     case 'JUMP':
     case 'JMP':
     case 'JP':
-      pushOpcode(16,args[0]);
+      switch(args[0].toUpperCase()){
+        case 'Z':
+          pushOpcode(17,args[1]);
+          break;
+        case 'NZ':
+          pushOpcode(18,args[1]);
+          break;
+        default:
+          pushOpcode(16,args[0]);
+      }
       break;
     case '//':
     case 'REM':
@@ -196,6 +210,7 @@ lines.forEach((v,i) => {
 });
 //REMOVE UNNEEDED BANKS
 let _compiled = compiled.slice(0,banks*BANK_SIZE);
-fs.writeFileSync(filename.replace('.c3asm','.c3bin'), Buffer.from(_compiled));
+let saveTo = filename.replace('.c3asm','') + '.c3bin';
+fs.writeFileSync(saveTo, Buffer.from(_compiled));
 
-console.log('\nDone.');
+console.log('\nDone. ('+saveTo+')');
