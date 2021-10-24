@@ -5,7 +5,6 @@ const fs = require('fs');
 //const isNum = v => isNaN(parseInt(v));
 const isNum = s => (typeof(s)=="number") || (!!(+s==s && s.length));
 
-const BANK_SIZE = 0x80;
 const ROM_SIZE = 0x8000;
 
 const REG_MAP = {a: 0, b: 1, c: 2, d: 3};
@@ -26,10 +25,7 @@ function assembleOpcode(o,h,e) {
 
 const compiled = new Uint8Array(ROM_SIZE).fill(0);
 
-let bankOffset = 0;
 let ptr = 0;
-let bank = 0;
-let banks = 1;
 const special = {
   ['$next']: (isize) => {
     return ptr - bankOffset + isize;
@@ -60,16 +56,8 @@ function pushData(v) {
   process.stdout.write(`(${(parseInt(v&0xFF).toString(16))}) `);
   handlePtrChange();
 }
-function jumpTo(_bank=0, addr=0) {
-  //console.log("jomp" + _bank + " " + addr)
-  bank = parseInt(_bank);
+function jumpTo(addr) {
   addr = parseInt(addr);
-  if((_bank < 0) || (_bank > 0xFF)) {
-    throw new Error('Bank out of bounds');
-    return;
-  }
-  banks = Math.max(banks, bank+1);
-  bankOffset = bank * BANK_SIZE;
   ptr = bankOffset + addr;
   handlePtrChange();
 }
@@ -88,8 +76,9 @@ lines.forEach((v,i) => {
   process.stdout.write(debugstr+(' '.repeat(Math.max(0,32-debugstr.length)))+' \t=> ');
 
   switch(cmd) {
-    case '#BANK':
-      jumpTo(args[0] || (bank + 1),args[1]);
+    case '#AT':
+    case '#ADDR':
+      jumpTo(args[0]);
       break;
     case 'NOOP':
     case 'NOP':
@@ -105,15 +94,6 @@ lines.forEach((v,i) => {
     case 'STP':
     case 'HCF':
       pushOpcode(2,0);
-      break;
-    case 'BANK':
-      if(1){
-        let map = {
-          "RAM": 3,
-          "ROM": 4,
-        };
-        pushOpcode(map[args[0].toUpperCase().trim()],args[1]);
-      }
       break;
     case 'LOAD':
     case 'LD':
@@ -209,8 +189,8 @@ lines.forEach((v,i) => {
   }
   console.log('');
 });
-//REMOVE UNNEEDED BANKS
-let _compiled = compiled.slice(0,banks*BANK_SIZE);
+
+let _compiled = compiled.slice(0,filesize);
 let saveTo = filename.replace('.c3asm','') + '.c3bin';
 fs.writeFileSync(saveTo, Buffer.from(_compiled));
 

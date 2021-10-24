@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>C3 Documentation</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<main>
+			<header>
+				<div id="logo-wrapper">
+					<img src="logo.png" id="logo">
+				</div>
+				<div id="name">
+					<h1>C3 CPU Architecure</h1>
+					<span>
+						<a href="c3doc.txt">View old docs</a>
+						&nbsp;
+						<a href="https://github.com/griffi-gh/C3">GitHub</a>
+					</span>
+				</div>
+			</header>
+			<div class="line"></div>
+			<div class="spacer-v"></div>
+			<div class="kinda-centered">
+				<h2>Info</h2>
+				<div class="tab">
+					C3 (<b>C</b>PU<b>3</b>) is a simple 16-bit processor architecture.<br>
+				</div>
+				<h2 id="_registers">Registers</h2>
+				<div class="tab">
+					C3 has 4 (16 bit) general-purpose registers: <b>A, B, C and D</b>;<br>
+					2 binary flag registers (<b>Z</b>ero and <b>C</b>arry);<br>
+					and 1 <a href="#_io">I/O</a> register: IO_OUT (Write-only)
+				</div>
+				<h2 id="_io">I/O</h2>
+				<div class="tab">
+					C3 can have up to 255 I/O ports.<br>
+					Connector pins:
+					<table>
+					  <tr>
+							<th>Name</td>
+							<th class="center-text">Type</td>
+							<th>Description</td>
+					  </tr>
+					  <tr>
+							<td>IO_CLK</td>
+							<td class="center-text">Output</td>
+							<td>Clock</td>
+					  </tr>
+					  <tr>
+							<td>IO_TRIGGER</td>
+							<td class="center-text">Output</td>
+							<td>Send a pulse to the I/O device</td>
+					  </tr>
+					  <tr>
+							<td>IO_OUT</td>
+							<td class="center-text">Output</td>
+							<td>Value of the IO_OUT register</td>
+					  </tr>
+					  <tr>
+							<td>IO_WAKE</td>
+							<td class="center-text">Input</td>
+							<td>Unhalt the CPU</td>
+					  </tr>
+					  <tr>
+							<td>IO_IN</td>
+							<td class="center-text">Input</td>
+							<td>Value for the <a href="#_io_read">IO_READ</a> instr</td>
+					  </tr>
+					</table>
+				</div>
+				<h3>This page is WIP. Please head to the old documentation for now.</h3>
+			</div>
+		</main>
+	</body>
+</html>

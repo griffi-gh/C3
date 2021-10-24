@@ -1,3 +1,9 @@
+=======================================
+THIS DOCUMENT IS EXTRMEMELY OUTDATED!!!
+C3 IS NOW A *16-BIT* CPU!!!
+=======================================
+
+
 TODO: write better docs
 
 C3 ARCHITECTURE
