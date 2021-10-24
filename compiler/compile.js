@@ -25,16 +25,13 @@ function assembleOpcode(o,h,e) {
 
 const compiled = new Uint16Array(ROM_SIZE).fill(0);
 
+let filesize = 0;
 let ptr = 0;
-const special = {
-  ['$next']: (isize) => {
-    return ptr - bankOffset + isize;
-  }
-}
 function handlePtrChange() {
   if(ptr >= ROM_SIZE) {
     throw new Error('Out of bounds');
   }
+  filesize = Math.max(filesize,ptr);
 }
 function pushOpcode(o,h,e) {
   if(typeof(h)=='string') h = regIndex(h);
@@ -62,7 +59,17 @@ jumpTo();
 const file = fs.readFileSync(filename,'utf8');
 const lines = file.split('\n');
 const labels = {};
-
+lines.forEach((v,i) => {
+  let l = v.trim().replace('\r','');
+  if(l[0]==':') {
+    let [name,addr] = l.split(' ');
+    if(addr) {
+      name = name.slice(1);
+      labels[name] = parseInt(addr);
+      console.log(`Found static label ${name} at address ${labels[name]}`)
+    }
+  }
+});
 lines.forEach((v,i) => {
   let cmd = v.trim().replace('\r','');
   if(cmd.length < 1) return;
@@ -102,7 +109,7 @@ lines.forEach((v,i) => {
           // LD R,V
           pushOpcode(9,a);
           b = b.toLowerCase();
-          let data = special[b] ? special[b](2) : parseInt(b);
+          let data = parseInt(labels[b] || b);
           pushData(data);
         } else {
           let acond = false;
@@ -184,7 +191,7 @@ lines.forEach((v,i) => {
     default:
       if(cmd.startsWith('//')) break;
       if(cmd.startsWith(':')) {
-        if(args[0]) jumpTo(args[0]);
+        if(args[0]) jumpTo(parseInt(args[0]));
         labels[cmd.slice(1)] = ptr;
         break;
       }
@@ -193,7 +200,8 @@ lines.forEach((v,i) => {
   console.log('');
 });
 
-let _compiled = compiled.slice(0,filesize);
+//let _compiled = compiled.slice(0,filesize);
+let _compiled = compiled; //temporary shit
 let saveTo = filename.replace('.c3asm','') + '.c3bin';
 fs.writeFileSync(saveTo, Buffer.from(_compiled));
 

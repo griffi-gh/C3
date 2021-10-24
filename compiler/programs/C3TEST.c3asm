@@ -1,25 +1,22 @@
 // initial A register determines the test
-LD A,5
-BANK ROM,A
+LD A,TEST_LOAD_R_V
+JUMP A
+STOP
 
-// LOAD R,V TEST
-#BANK 1
-	NOP 4
-	LD A,0x12
-	LD B,0x34
-	LD C,0x56
-	LD D,0x78
+:TEST_LOAD_R_V 0x0006
+	LD A,0x1234
+	LD B,0x5678
+	LD C,0x9abc
+	LD D,0xdef0
 	STOP
 	// expected register state:
-	// $12 $34 $56 $78
+	// $134 $5678 $9abc $def0
 
-// RAM READ/WRITE TEST
-#BANK 2
-	NOP 4
+:TEST_RAM_RW 0x0014
 	// init registers
-	LD A,0x69
-	LD C,0x81
-	LD D,0xff
+	LD A,0x0069
+	LD C,0x8001
+	LD D,0xffff
 	// load into memory
 	LD [C],A
 	LD [D],A
@@ -32,10 +29,10 @@ BANK ROM,A
 	LD A,[C]
 	STOP
 	// expected register state:
-	// $69 $69 $81 $ff
+	// $0069 $0069 $8001 $ffff
 	
 // ADD/SUB TEST
-#BANK 3
+:ADDSUB_TEST
 	NOP 4
 	LD A,0x69
 	LD B,0x11
@@ -45,62 +42,3 @@ BANK ROM,A
 	STOP
 	// expected register state:
 	// $69 $11 $00 $7A
-
-// JUMP TEST
-#BANK 4,0x00
-    NOP 4
-	LD B,0x20
-	JUMP B
-	STOP
-	STOP
-#BANK 4,0x1E
-	STOP
-	STOP
-#BANK 4,0x20
-	LD B,0x22
-	JUMP B
-#BANK 4,0x40
-	STOP
-	STOP
-	// expected state:
-	// spinlooop at 0x22=success, stop=fail
-
-//CONDITIONAL JUMP TEST
-#BANK 5
-	NOP 4
-	LD B,0x10
-	LD A,1
-	SUB A,A
-	JP Z,B
-	STOP
-	STOP
-#BANK 5,0x10
-	LD B,0x20
-	LD A,10
-	LD C,1
-	SUB A,C
-	JP NZ,B
-#BANK 5,0x1E
-	STOP
-	STOP
-#BANK 5,0x20
-	LD A,10
-	LD B,10
-	LD C,0x32
-	CMP A,B
-	JP Z,C
-#BANK 5,0x2E
-	STOP
-	STOP
-#BANK 5,0x30
-	STOP
-	STOP
-#BANK 5,0x32
-	LD A,0x34
-	JUMP A
-	STOP
-	STOP
-	// expected state - jumploop at 0x34
-
-	
-

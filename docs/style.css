@@ -1,6 +1,10 @@
 @font-face {
 	font-family: OpenSans;
-	src: url(OpenSans.ttf);
+	src: url(fonts/OpenSans.ttf);
+}
+@font-face {
+	font-family: SourceCodePro;
+	src: url(fonts/SourceCodePro.ttf);
 }
 html,body { min-height: 100%; margin: 0; }
 :root {
@@ -8,7 +12,16 @@ html,body { min-height: 100%; margin: 0; }
 	--content-color: 197,197,197;
 	--link-color: 0,150,207;
 	--table-header: 255,255,255,.075;
+	--code-view: #303841;
+	--instr-u: #E01A4F;
+	--instr-s: #FF8200;
+	--instr-r: #F9C22E;
+	--instr-i: #53B3CB;
 }
+.instr-u { color: var(--instr-u); font-family: SourceCodePro; }
+.instr-s { color: var(--instr-s); font-family: SourceCodePro; }
+.instr-r { color: var(--instr-r); font-family: SourceCodePro; }
+.instr-i { color: var(--instr-i); font-family: SourceCodePro; }
 *,*::before,*::after,:root {
 	box-sizing: border-box;
 }
@@ -37,6 +50,10 @@ h1,h2,h3,h4,h5,h6 {
 	margin: 0;
 	padding: 0;
 	line-height: .9em;
+}
+.marginH2 {
+	margin-top: .33rem;
+	margin-bottom: .66rem;
 }
 .center {
 	display: flex;
@@ -108,4 +125,19 @@ th {
 	text-align:center;
 	font-weight: bold;
 	background: rgba(var(--table-header));
+}
+.code {
+	display: block;
+	font-family: SourceCodePro;
+	background: var(--code-view);
+	border-radius: .5rem;
+	padding: .5rem .75rem;
+	margin: .5rem;
+	box-shadow: 0 0 .6rem rgba(0,0,0,.5);
+}
+.code.inline {
+	display: inline-block;
+}
+.code-font {
+	font-family: SourceCodePro;
 }

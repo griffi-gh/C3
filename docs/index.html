@@ -41,7 +41,7 @@
 					<table>
 					  <tr>
 							<th>Name</td>
-							<th class="center-text">Type</td>
+							<th>Type</td>
 							<th>Description</td>
 					  </tr>
 					  <tr>
@@ -70,6 +70,113 @@
 							<td>Value for the <a href="#_io_read">IO_READ</a> instr</td>
 					  </tr>
 					</table>
+				</div>
+				<h2 id="_instr_format">Instruction encoding</h2>
+				<div class="tab">
+					<div>
+						<div class="inline code">
+							<span class="instr-u">uuuuuuuu</span><!--
+							--><span class="instr-s">s</span><!--
+							--><span class="instr-r">rr</span><!--
+							--><span class="instr-i">iiiii</span>
+						</div>
+					</div>
+					<span class="instr-u">u</span> - Unused<br>
+					<span class="instr-s">s</span> - Instruction set select<br>
+					<span class="instr-r">r</span> - Register select<br>
+					<span class="instr-i">i</span> - Instruction<br>
+				</div>
+				<h2>Instrunction table</h2>
+				<div class="tab">
+					<table>
+						<tr>
+							<th></th>
+							<th>Instr</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td class="center-text">00</td>
+							<td class="code-font">NOP</td>
+							<td>Does nothing</td>
+						</tr>
+						<tr>
+							<td class="center-text">01</td>
+							<td class="code-font">RST</td>
+							<td>Reset A,B,C,D and PC</td>
+						</tr>
+						<tr>
+							<td class="center-text">02</td>
+							<td class="code-font">RST</td>
+							<td>Reset A,B,C,D and PC</td>
+						</tr>
+						<tr>
+							<td class="center-text">04</td>
+							<td class="code-font">-</td>
+							<td>-</td>
+						</tr>
+						<tr>
+							<td class="center-text">05</td>
+							<td class="code-font">-</td>
+							<td>-</td>
+						</tr>
+						<tr>
+							<td class="center-text">06</td>
+							<td class="code-font">LD <span class="instr-r">r</span>,A</td>
+							<td>Load value of A into <span class="instr-r">r</span></td>
+						</tr>
+						<tr>
+							<td class="center-text">07</td>
+							<td class="code-font">LD <span class="instr-r">r</span>,B</td>
+							<td>Load value of B into <span class="instr-r">r</span></td>
+						</tr>
+						<tr>
+							<td class="center-text">08</td>
+							<td class="code-font">LD <span class="instr-r">r</span>,C</td>
+							<td>Load value of C into <span class="instr-r">r</span></td>
+						</tr>
+						<tr>
+							<td class="center-text">08</td>
+							<td class="code-font">LD <span class="instr-r">r</span>,D</td>
+							<td>Load value of D into <span class="instr-r">r</span></td>
+						</tr>
+						<tr>
+							<td class="center-text">0A</td>
+							<td class="code-font">LD A,[<span class="instr-r">r</span>]</td>
+							<td>Read mem at location <span class="instr-r">r</span> into A</td>
+						</tr>
+						<tr>
+							<td class="center-text">0B</td>
+							<td class="code-font">LD [<span class="instr-r">r</span>],A</td>
+							<td>Write the value of A to mem at location <span class="instr-r">r</span></td>
+						</tr>
+						<tr>
+							<td class="center-text">0C</td>
+							<td class="code-font">ADD A,<span class="instr-r">r</span></td>
+							<td>Add the value of <span class="instr-r">r</span> to A</td>
+						</tr>
+						<tr>
+							<td class="center-text">0D</td>
+							<td class="code-font">SUB A,<span class="instr-r">r</span></td>
+							<td>TODO</td>
+						</tr>
+						<tr>
+							<td class="center-text">0E</td>
+							<td class="code-font">MUL A,<span class="instr-r">r</span></td>
+							<td>TODO</td>
+						</tr>
+						<tr>
+							<td class="center-text">0F</td>
+							<td class="code-font">CMP A,<span class="instr-r">r</span></td>
+							<td>TODO</td>
+						</tr>
+
+						<tr>
+							<td class="center-text">00</td>
+							<td class="code-font">TODO</td>
+							<td>TODO</td>
+						</tr>
+					</table>
+					(Invalid instructions do are equivalent to NOP)
 				</div>
 				<h3>This page is WIP. Please head to the old documentation for now.</h3>
 			</div>
