@@ -133,6 +133,7 @@ both compiler and cpu
 10 - JP R //Jump to R
 11 - JP Z,R //Jump to R if Zero flag is set
 12 - JP NZ,R //Jump to R if Zero flag is not set
+*NYI:*
 13 - JPBNK ROM,R //Switch ROM bank to A and jump to R
 14 - JPBNK RAM,R //Switch RAM bank to A and jump to R
 15 - IOWAIT // Halt the cpu and wait for IO_WAIT_TICK (TODO TIMEOUT)(TODO INTERRUPT)
