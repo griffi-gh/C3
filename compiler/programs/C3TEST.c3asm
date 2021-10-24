@@ -1,5 +1,5 @@
 // initial A register determines the test
-LD A,TEST_LOAD_R_V
+LD A,:TEST_LOAD_R_V
 JUMP A
 STOP
 
@@ -9,8 +9,8 @@ STOP
 	LD C,0x9abc
 	LD D,0xdef0
 	STOP
-	// expected register state:
-	// $134 $5678 $9abc $def0
+	//expected register state:
+	//$134 $5678 $9abc $def0
 
 :TEST_RAM_RW 0x0014
 	// init registers
@@ -28,11 +28,10 @@ STOP
 	LD B,A
 	LD A,[C]
 	STOP
-	// expected register state:
-	// $0069 $0069 $8001 $ffff
-	
-// ADD/SUB TEST
-:ADDSUB_TEST
+	//expected register state:
+	//$0069 $0069 $8001 $ffff
+
+:ADDSUB_TEST 0x0030
 	NOP 4
 	LD A,0x69
 	LD B,0x11
@@ -40,5 +39,5 @@ STOP
 	LD D,A
 	SUB A,B
 	STOP
-	// expected register state:
-	// $69 $11 $00 $7A
+	//expected register state:
+	//$69 $11 $00 $7A

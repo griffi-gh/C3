@@ -105,11 +105,11 @@ lines.forEach((v,i) => {
       if(1){
         let a = args[0];
         let b = args[1];
-        if(!isNum(a) && (isNum(b) || b.startsWith('$'))) {
+        if(!isNum(a) && (isNum(b) || b.startsWith(':'))) {
           // LD R,V
           pushOpcode(9,a);
-          b = b.toLowerCase();
-          let data = parseInt(labels[b] || b);
+          //b = b.toLowerCase();
+          let data = parseInt(labels[b.slice(1)] || b);
           pushData(data);
         } else {
           let acond = false;
@@ -201,7 +201,12 @@ lines.forEach((v,i) => {
 });
 
 //let _compiled = compiled.slice(0,filesize);
-let _compiled = compiled; //temporary shit
+let _compiled = new Uint8Array(compiled.length*2); //temporary shit
+let i = 0;
+for(const v of compiled) {
+  _compiled[i++] = v>>8;
+  _compiled[i++] = v&0xFF;
+}
 let saveTo = filename.replace('.c3asm','') + '.c3bin';
 fs.writeFileSync(saveTo, Buffer.from(_compiled));
 
