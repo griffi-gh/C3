@@ -1,0 +1,41 @@
+LD D,:FAIL
+LD B,1
+
+//first,test non-causes
+LD C,1
+LD A,0xfffe
+ADD A,B
+JP C,D
+
+//test overflow check with CMP
+LD C,2
+LD A,0xffff
+ADD A,B
+LD B,0
+CMP A,B
+JP NZ,D
+
+//test carry for ADD
+LD C,3
+LD A,0xffff
+LD B,1
+ADD A,B
+JP NC,D
+
+//test non-causes again
+//to test that flags are
+//properly reset
+LD C,4
+LD A,0xfffe
+ADD A,B
+JP C,D
+
+//test passed!
+//fill registers with 6969
+LD A,0x6969
+LD B,A
+LD C,A
+LD D,A
+
+:FAIL
+STOP

@@ -1,0 +1,12 @@
+LD B,0x8000
+LD C,1
+:LOOP
+	LD A,0x6969
+	LD [B],A
+	LD A,B
+	ADD A,C
+	LD B,A
+	LD D,:LOOP
+	JP NC,D
+	LD D,0xEEEE
+	STOP

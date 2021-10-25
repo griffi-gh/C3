@@ -112,11 +112,11 @@ lines.forEach((v,i) => {
         if(!isNum(a) && (isNum(b) || b.startsWith(':'))) {
           // LD R,V
           pushOpcode(9,a);
-          //b = b.toLowerCase();
+          b = b.trim();
           let data;
           if(b.startsWith(':')) {
             let n = b.slice(1);
-            let data = labels[n];
+            data = labels[n];
             if(data == null) {
               process.stdout.write('(defer '+n+')')
               deferred.push([ptr, n, false]);
@@ -188,16 +188,25 @@ lines.forEach((v,i) => {
     case 'JUMP':
     case 'JMP':
     case 'JP':
-      switch(args[0].toUpperCase()){
-        case 'Z':
-          pushOpcode(17,args[1]);
-          break;
-        case '!Z':
-        case 'NZ':
-          pushOpcode(18,args[1]);
-          break;
-        default:
+      if(1) {
+        if(args.length > 1) {
+          let map = {
+            Z: 17,
+            NZ: 18,
+            ['!Z']: 18,
+            C: 19,
+            NC: 20,
+            ['!C']: 20,
+          }
+          let a = args[0].toUpperCase()
+          if(map[a]) {
+            pushOpcode(map[a],args[1]);
+          } else {
+            throw new Error("Malformed opcode (JP) at memory address "+ptr.toString(16))
+          }
+        } else {
           pushOpcode(16,args[0]);
+        }
       }
       break;
     case '//':

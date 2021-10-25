@@ -242,55 +242,55 @@
 								<td>0</td>
 								<td class="center-text">11</td>
 								<td class="code-font">JP Z,<span class="instr-r">r</span></td>
-								<td>Jump to <span class="instr-r">r</span> if Zero flag is set</td>
+								<td>Jump to <span class="instr-r">r</span> if <b>Z</b>ero flag is set</td>
 							</tr>
 							<tr>
 								<td>0</td>
 								<td class="center-text">12</td>
 								<td class="code-font">JP NZ,<span class="instr-r">r</span></td>
-								<td>Jump to <span class="instr-r">r</span> if Zero flag is not set</td>
+								<td>Jump to <span class="instr-r">r</span> if <b>Z</b>ero flag is not set</td>
 							</tr>
 							<tr id="_i_halt">
 								<td>0</td>
 								<td class="center-text">13</td>
-								<td class="code-font">IOHALT</td>
-								<td>Wait for IO_WAKE tick</td>
+								<td class="code-font">JP C,<span class="instr-r">r</span></td>
+								<td>Jump to <span class="instr-r">r</span> if <b>C</b>arry flag is set</td>
 							</tr>
 							<tr id="_io_trig">
 								<td>0</td>
 								<td class="center-text">14</td>
-								<td class="code-font">IOTRIG</td>
-								<td>Send a pulse to the I/O device</td>
+								<td class="code-font">JP NC,<span class="instr-r">r</span></td>
+								<td>Jump to <span class="instr-r">r</span> if <b>C</b>arry flag is not set</td>
 							</tr>
 							<tr id="_io_write">
 								<td>0</td>
 								<td class="center-text">15</td>
-								<td class="code-font">IOREAD <span class="instr-r">r</span></td>
-								<td>Set <span class="instr-r">r</span> to the value of IO_IN line</td>
+								<td class="code-font">IOHALT</td>
+								<td>Wait for <a href="#_io">IO_WAKE</a> tick</td>
 							</tr>
 							<tr id="_io_read">
 								<td>0</td>
 								<td class="center-text">16</td>
-								<td class="code-font">IOWRT <span class="instr-r">r</span></td>
-								<td>Write <span class="instr-r">r</span> to the IO_OUT register (Only 8 lowest bits are used)</td>
+								<td class="code-font">IOTRIG</td>
+								<td>Send a pulse to the <a href="#_io">I/O</a> device</td>
 							</tr>
 							<tr>
 								<td>0</td>
 								<td class="center-text">17</td>
-								<td class="code-font">IOSLOT <span class="instr-r">r</span></td>
-								<td>Select I/O device with index <span class="instr-r">r</span> (Only 8 lowest bits are used)</td>
+								<td class="code-font">IOREAD <span class="instr-r">r</span></td>
+								<td>Set <span class="instr-r">r</span> to the value of <a href="#_io">IO_IN</a> line</td>
 							</tr>
 							<tr>
 								<td>0</td>
 								<td class="center-text">18</td>
-								<td class="code-font">-</td>
-								<td class="code-font">-</td>
+								<td class="code-font">IOWRT <span class="instr-r">r</span></td>
+								<td>Write <span class="instr-r">r</span>&0xFF to the <a href="#_io">IO_OUT</a> register</td>
 							</tr>
 							<tr>
 								<td>0</td>
 								<td class="center-text">19</td>
-								<td class="code-font">-</td>
-								<td class="code-font">-</td>
+								<td class="code-font">IOSLOT <span class="instr-r">r</span></td>
+								<td>Select <a href="#_io">I/O</a> device with index <span class="instr-r">r</span>&0xFF</td>
 							</tr>
 							<tr>
 								<td>0</td>
