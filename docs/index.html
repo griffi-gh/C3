@@ -14,7 +14,7 @@
 				g.saveTheme = function() {
 					localStorage.setItem('l1', cb.checked.toString());
 				}
-				cb.checked = JSON.parse(localStorage.getItem('l1'));
+				cb.checked = localStorage.getItem('l1')==='true';
 			});//-->
 		</script>
 	</head>
