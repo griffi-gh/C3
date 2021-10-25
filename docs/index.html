@@ -7,6 +7,8 @@
 		<title>C3 Documentation</title>
 		<link rel="stylesheet" href="style.css">
 		<script type="text/javascript"><!--
+			// Save/Load checkbox state
+			// We don't use js for anything else
 			"use strict";
 			var g = (window||global||globalThis);
 			window.addEventListener('DOMContentLoaded', function() {
@@ -29,7 +31,7 @@
 			<main>
 				<header>
 					<div id="logo-wrapper">
-						<img src="res/logo.png" id="logo" loading="lazy" width="60" height="48">
+						<img src="res/logo.png" id="logo" width="60" height="48">
 					</div>
 					<div id="name">
 						<h1>The C3 CPU Architecure</h1>
@@ -56,12 +58,12 @@
 								Zero register gets set if last alu operation result is 0
 								Carry gets set if last apu operation cases an overflow
 							</li>
-							<li>1 <a href="#_io">I/O</a> register: IO_OUT (Write-only)</li>
+							<li>1 8-bit<a href="#_io">I/O</a> register: IO_OUT (Write-only)</li>
 						</ul>
 					</div>
 					<h2 id="_mmap">Memory map</h2>
 					<div class="tab">
-						<i>TODO</i>
+						
 					</div>
 					<h2 id="_io">I/O</h2>
 					<div class="tab">
@@ -79,7 +81,7 @@
 								<td>Clock</td>
 						  </tr>
 						  <tr>
-								<td>IO_TRIGGER</td>
+								<td>IO_TRIG</td>
 								<td class="center-text">Output</td>
 								<td>Can be used to end a pulse to the I/O device (<a href="#_io_trig">IOTRIG</a>)</td>
 						  </tr>
@@ -244,11 +246,269 @@
 								<td class="code-font">IOTRIG</td>
 								<td>Send a pulse to the I/O device</td>
 							</tr>
+							<tr id="_io_write">
+								<td>0</td>
+								<td class="center-text">15</td>
+								<td class="code-font">IOREAD <span class="instr-r">r</span></td>
+								<td>Set <span class="instr-r">r</span> to the value of IO_IN line</td>
+							</tr>
+							<tr id="_io_read">
+								<td>0</td>
+								<td class="center-text">16</td>
+								<td class="code-font">IOWRT <span class="instr-r">r</span></td>
+								<td>Write <span class="instr-r">r</span> to the IO_OUT register (Only 8 lowest bits are used)</td>
+							</tr>
 							<tr>
 								<td>0</td>
+								<td class="center-text">17</td>
+								<td class="code-font">IOSLOT <span class="instr-r">r</span></td>
+								<td>Select I/O device with index <span class="instr-r">r</span> (Only 8 lowest bits are used)</td>
+							</tr>
+							<tr>
+								<td>0</td>
+								<td class="center-text">18</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>0</td>
+								<td class="center-text">19</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>0</td>
+								<td class="center-text">1A</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>0</td>
+								<td class="center-text">1B</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>0</td>
+								<td class="center-text">1C</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>0</td>
+								<td class="center-text">1D</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>0</td>
+								<td class="center-text">1E</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>0</td>
+								<td class="center-text">1F</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
 								<td class="center-text">00</td>
-								<td class="code-font">TODO</td>
-								<td>TODO</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">00</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">01</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">02</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">03</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">04</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">05</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">06</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">07</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">08</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">09</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">0A</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">0B</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">0C</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">0D</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">0E</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">0F</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">10</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">11</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">12</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">13</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">14</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">15</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">16</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">17</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">18</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">19</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">1A</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">1B</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">1C</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">1D</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">1E</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td class="center-text">1F</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
 							</tr>
 						</table>
 						(Invalid instructions are equivalent to NOP)
