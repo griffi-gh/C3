@@ -1,10 +1,12 @@
 @font-face {
 	font-family: OpenSans;
-	src: url(fonts/OpenSans.ttf);
+	src: local(Open Sans), local(Open-Sans), url(fonts/OpenSans.ttf);
+	font-display: swap;
 }
 @font-face {
 	font-family: SourceCodePro;
 	src: url(fonts/SourceCodePro.ttf);
+	font-display: swap;
 }
 html,body { min-height: 100%; margin: 0; }
 :root {
