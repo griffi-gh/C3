@@ -113,11 +113,12 @@ lines.forEach((v,i) => {
             let n = b.slice(1);
             let data = labels[n];
             if(data == null) {
-              deferred.push([ptr,n])
+              process.stdout.write('(defer '+n+')')
+              deferred.push([ptr, n, false]);
               data = 0;
             }
           } else {
-
+            data = b;
           }
           pushData(parseInt(data));
         } else {
@@ -200,15 +201,35 @@ lines.forEach((v,i) => {
     default:
       if(cmd.startsWith('//')) break;
       if(cmd.startsWith(':')) {
-        if(args[0]) jumpTo(parseInt(args[0]));
-        labels[cmd.slice(1)] = ptr;
+        let nn = cmd.slice(1);
+        let noJp = false;
+        if(nn.startsWith(':')) {
+          nn = nn.slice(1);
+          noJp = true;
+        }
+        labels[nn] = ptr;
+        if(deferred[nn]) {
+          deferred[nn][2] = true;
+        }
+        if((!noJp) && args[0]) {
+          jumpTo(parseInt(args[0]));
+        }
         break;
       }
       throw new Error('Invalid instruction: ' + cmd);
   }
   console.log('');
 });
-
+for(val of deferred) {
+  if(val[2]) {
+    let ptr = val[0];
+    let name = val[1];
+    compiled[ptr] = labels[name];
+    console.log('Deferred label fulfilled! ('+name+' at '+ptr.toString(16)+')');
+  } else {
+    throw new Error('Deferred label not defined: '+val.slice(0,2).join(','));
+  }
+}
 //let _compiled = compiled.slice(0,filesize);
 let _compiled = new Uint8Array(compiled.length*2); //temporary shit
 let i = 0;
