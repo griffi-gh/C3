@@ -36,8 +36,8 @@ html,body { min-height: 100%; margin: 0; }
 }
 
 /*webkit scrollbar color*/
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: #31353A; }
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: #0f1419; }
 ::-webkit-scrollbar-thumb{
 	background: #909090;
 	border-radius: 999em;
@@ -47,7 +47,7 @@ html,body { min-height: 100%; margin: 0; }
 ::-webkit-scrollbar-thumb:hover:active { background: #414141; }
 /*firefox scrollbar color*/
 :root,* {
-	scrollbar-color: #909090 #31353A;
+	scrollbar-color: #909090 #0f1419;
 	scrollbar-width: thin;
 }
 
