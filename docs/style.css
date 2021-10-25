@@ -136,6 +136,7 @@ h1,h2,h3,h4,h5,h6 {
 	text-align: center;
 }
 .line {
+	border: none;
 	display: block;
 	width: 100%;
 	margin: .33rem 5%;
