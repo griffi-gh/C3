@@ -35,6 +35,22 @@ html,body { min-height: 100%; margin: 0; }
 	--code-view: #ffffff;
 }
 
+/*webkit scrollbar color*/
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #31353A; }
+::-webkit-scrollbar-thumb{
+	background: #909090;
+	border-radius: 999em;
+	box-shadow: 0 0 3px rgba(0,0,0,.5);
+}
+::-webkit-scrollbar-thumb:hover { background: #747474; }
+::-webkit-scrollbar-thumb:hover:active { background: #414141; }
+/*firefox scrollbar color*/
+:root,* {
+	scrollbar-color: #909090 #31353A;
+	scrollbar-width: thin;
+}
+
 #light-deco {
 	color: rgb(var(--content-color));
 	pointer-events: none;
