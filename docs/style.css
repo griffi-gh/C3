@@ -1,6 +1,9 @@
 @font-face {
 	font-family: OpenSans;
-	src: local(Open Sans), local(Open-Sans), url(fonts/OpenSans.ttf);
+	src: local(Open Sans), local(Open-Sans),
+			 url(fonts/OpenSans.woff2) format("woff2"),
+			 url(fonts/OpenSans.woff) format("woff"),
+		   url(fonts/OpenSans.ttf);
 	font-display: fallback;
 }
 @font-face {
