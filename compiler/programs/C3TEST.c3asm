@@ -4,7 +4,7 @@ LD A,:TEST_RAM_RW
 JUMP A
 STOP
 
-:TEST_LOAD_R_V 0x0006
+:TEST_LOAD_R_V
 	LD A,0x1234
 	LD B,0x5678
 	LD C,0x9abc
@@ -13,7 +13,7 @@ STOP
 	//expected register state:
 	//$134 $5678 $9abc $def0
 
-:TEST_RAM_RW 0x0014
+:TEST_RAM_RW
 	// init registers
 	LD A,0x0069
 	LD C,0x8001
@@ -32,7 +32,7 @@ STOP
 	//expected register state:
 	//$0069 $0069 $8001 $ffff
 
-:ADDSUB_TEST 0x0030
+:ADDSUB_TEST
 	NOP 4
 	LD A,0x69
 	LD B,0x11

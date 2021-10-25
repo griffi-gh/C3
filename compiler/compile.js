@@ -208,9 +208,13 @@ lines.forEach((v,i) => {
           noJp = true;
         }
         labels[nn] = ptr;
-        if(deferred[nn]) {
-          deferred[nn][2] = true;
-        }
+        process.stdout.write('(Define '+nn+' at '+ptr.toString(16)+') ');
+        deferred.forEach((v,i,d) => {
+          if(v[1]==nn) {
+            v[2] = true;
+            process.stdout.write('(Fulfill 0x'+v[0].toString(16)+')');
+          }
+        });
         if((!noJp) && args[0]) {
           jumpTo(parseInt(args[0]));
         }
@@ -220,17 +224,18 @@ lines.forEach((v,i) => {
   }
   console.log('');
 });
-for(val of deferred) {
+console.log('');
+for(const val of deferred) {
   if(val[2]) {
     let ptr = val[0];
     let name = val[1];
     compiled[ptr] = labels[name];
-    console.log('Deferred label fulfilled! ('+name+' at '+ptr.toString(16)+')');
   } else {
     throw new Error('Deferred label not defined: '+val.slice(0,2).join(','));
   }
 }
-//let _compiled = compiled.slice(0,filesize);
+console.log('Deferred labels check OK! ('+deferred.length+'/'+deferred.length+')');
+
 let _compiled = new Uint8Array(compiled.length*2); //temporary shit
 let i = 0;
 for(const v of compiled) {
@@ -240,4 +245,4 @@ for(const v of compiled) {
 let saveTo = filename.replace('.c3asm','') + '.c3bin';
 fs.writeFileSync(saveTo, Buffer.from(_compiled));
 
-console.log('\nDone. ('+saveTo+')');
+console.log('Done. ('+saveTo+')');
