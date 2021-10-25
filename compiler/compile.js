@@ -24,6 +24,7 @@ function assembleOpcode(o,h,e) {
 }
 
 const compiled = new Uint16Array(ROM_SIZE).fill(0);
+const deferred = [];
 
 let ptr = 0;
 function handlePtrChange() {
@@ -107,8 +108,18 @@ lines.forEach((v,i) => {
           // LD R,V
           pushOpcode(9,a);
           //b = b.toLowerCase();
-          let data = parseInt(labels[b.slice(1)] || b);
-          pushData(data);
+          let data;
+          if(b.startsWith(':')) {
+            let n = b.slice(1);
+            let data = labels[n];
+            if(data == null) {
+              deferred.push([ptr,n])
+              data = 0;
+            }
+          } else {
+
+          }
+          pushData(parseInt(data));
         } else {
           let acond = false;
           if(a.startsWith('[') && a.endsWith(']')){
@@ -202,8 +213,8 @@ lines.forEach((v,i) => {
 let _compiled = new Uint8Array(compiled.length*2); //temporary shit
 let i = 0;
 for(const v of compiled) {
-  _compiled[i++] = v>>8;
-  _compiled[i++] = v&0xFF;
+  _compiled[i++] = v >> 8;
+  _compiled[i++] = v & 0xFF;
 }
 let saveTo = filename.replace('.c3asm','') + '.c3bin';
 fs.writeFileSync(saveTo, Buffer.from(_compiled));

@@ -63,7 +63,23 @@
 					</div>
 					<h2 id="_mmap">Memory map</h2>
 					<div class="tab">
-						
+						<table>
+							<tr>
+								<th>Start</th>
+								<th>End</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td class="center-text">0000</td>
+								<td class="center-text">7FFF</td>
+								<td>64kb ROM (R/O)</td>
+							</tr>
+							<tr>
+								<td class="center-text">8000</td>
+								<td class="center-text">FFFF</td>
+								<td>64kb RAM (R/W)</td>
+							</tr>
+						</table>
 					</div>
 					<h2 id="_io">I/O</h2>
 					<div class="tab">
@@ -513,7 +529,10 @@
 						</table>
 						(Invalid instructions are equivalent to NOP)
 					</div>
-					<h3>This page is WIP</h3>
+					<h2>C3 Assembly</h2>
+					<div class="tab">
+						TODO
+					</div>
 				</div>
 			</main>
 		</div>
