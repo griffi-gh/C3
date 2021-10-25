@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/png" href="favicon.png"/>
 		<title>C3 Documentation</title>
 		<link rel="stylesheet" href="style.css">
 	</head>
@@ -30,9 +31,19 @@
 				</div>
 				<h2 id="_registers">Registers</h2>
 				<div class="tab">
-					C3 has 4 (16 bit) general-purpose registers: <b>A, B, C and D</b>;<br>
-					2 binary flag registers (<b>Z</b>ero and <b>C</b>arry);<br>
-					and 1 <a href="#_io">I/O</a> register: IO_OUT (Write-only)
+					<ul>
+						<li>4 (16 bit) general-purpose registers: <b>A, B, C and D</b></li>
+						<li>
+							2 binary flag registers (<b>Z</b>ero and <b>C</b>arry)<br>
+							Zero register gets set if last alu operation result is 0
+							Carry gets set if last apu operation cases an overflow
+						</li>
+						<li>1 <a href="#_io">I/O</a> register: IO_OUT (Write-only)</li>
+					</ul>
+				</div>
+				<h2 id="_mmap">MEMORY MAP</h2>
+				<div class="tab">
+					<i>TODO</i>
 				</div>
 				<h2 id="_io">I/O</h2>
 				<div class="tab">
@@ -52,22 +63,22 @@
 					  <tr>
 							<td>IO_TRIGGER</td>
 							<td class="center-text">Output</td>
-							<td>Send a pulse to the I/O device</td>
+							<td>Can be used to end a pulse to the I/O device (<a href="#_io_trig">IOTRIG</a>)</td>
 					  </tr>
 					  <tr>
 							<td>IO_OUT</td>
 							<td class="center-text">Output</td>
-							<td>Value of the IO_OUT register</td>
+							<td>Value of the IO_OUT register (<a href="#_io_write">IOWRT</a>)</td>
 					  </tr>
 					  <tr>
 							<td>IO_WAKE</td>
 							<td class="center-text">Input</td>
-							<td>Unhalt the CPU</td>
+							<td>Un<a href="#_i_halt">HALT</a> the CPU</td>
 					  </tr>
 					  <tr>
 							<td>IO_IN</td>
 							<td class="center-text">Input</td>
-							<td>Value for the <a href="#_io_read">IO_READ</a> instr</td>
+							<td>Value for the <a href="#_io_read">IOREAD</a> instr</td>
 					  </tr>
 					</table>
 				</div>
@@ -157,19 +168,43 @@
 						<tr>
 							<td class="center-text">0D</td>
 							<td class="code-font">SUB A,<span class="instr-r">r</span></td>
-							<td>TODO</td>
+							<td>Subtract the value of <span class="instr-r">r</span> from A</td>
 						</tr>
 						<tr>
 							<td class="center-text">0E</td>
 							<td class="code-font">MUL A,<span class="instr-r">r</span></td>
-							<td>TODO</td>
+							<td>Multiply A by <span class="instr-r">r</span> and store the result in A</td>
 						</tr>
 						<tr>
 							<td class="center-text">0F</td>
 							<td class="code-font">CMP A,<span class="instr-r">r</span></td>
-							<td>TODO</td>
+							<td>Compare <span class="instr-r">r</span> and A. 0 - (A==<span class="instr-r">r</span>); 2 - (A><span class="instr-r">r</span>); 4 - (A<<span class="instr-r">r</span>)</td>
 						</tr>
-
+						<tr>
+							<td class="center-text">10</td>
+							<td class="code-font">JP <span class="instr-r">r</span></td>
+							<td>Jump to <span class="instr-r">r</span></td>
+						</tr>
+						<tr>
+							<td class="center-text">11</td>
+							<td class="code-font">JP Z,<span class="instr-r">r</span></td>
+							<td>Jump to <span class="instr-r">r</span> if Zero flag is set</td>
+						</tr>
+						<tr>
+							<td class="center-text">12</td>
+							<td class="code-font">JP NZ,<span class="instr-r">r</span></td>
+							<td>Jump to <span class="instr-r">r</span> if Zero flag is not set</td>
+						</tr>
+						<tr id="_i_halt">
+							<td class="center-text">13</td>
+							<td class="code-font">IOHALT</td>
+							<td>Wait for IO_WAKE tick</td>
+						</tr>
+						<tr id="_io_trig">
+							<td class="center-text">14</td>
+							<td class="code-font">IOTRIG</td>
+							<td>Send a pulse to the I/O device</td>
+						</tr>
 						<tr>
 							<td class="center-text">00</td>
 							<td class="code-font">TODO</td>
