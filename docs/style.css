@@ -1,12 +1,12 @@
 @font-face {
 	font-family: OpenSans;
 	src: local(Open Sans), local(Open-Sans), url(fonts/OpenSans.ttf);
-	font-display: swap;
+	font-display: fallback;
 }
 @font-face {
 	font-family: SourceCodePro;
 	src: url(fonts/SourceCodePro.ttf);
-	font-display: swap;
+	font-display: fallback;
 }
 html,body { min-height: 100%; margin: 0; }
 :root {
@@ -108,7 +108,7 @@ html {
 }
 #body-wrapper {
 	padding: 2rem 10vw;
-	font-family: OpenSans;
+	font-family: OpenSans, Arial;
 	color: rgb(var(--content-color));
 	background: rgb(var(--background-color));
 	transition: background var(--theme-transition), color var(--theme-transition);
