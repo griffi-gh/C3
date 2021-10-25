@@ -1,6 +1,5 @@
 // initial A register determines the test
-#ADDR 0
-LD A,:TEST_RAM_RW
+LD A,:ADDSUB_TEST
 JUMP A
 STOP
 
@@ -8,10 +7,10 @@ STOP
 	LD A,0x1234
 	LD B,0x5678
 	LD C,0x9abc
-	LD D,0xdef0
+	LD D,0xde69
 	STOP
 	//expected register state:
-	//$134 $5678 $9abc $def0
+	//$1234 $5678 $9abc $de69
 
 :TEST_RAM_RW
 	// init registers
@@ -33,7 +32,6 @@ STOP
 	//$0069 $0069 $8001 $ffff
 
 :ADDSUB_TEST
-	NOP 4
 	LD A,0x69
 	LD B,0x11
 	ADD A,B
@@ -41,4 +39,37 @@ STOP
 	SUB A,B
 	STOP
 	//expected register state:
-	//$69 $11 $00 $7A
+	//$0069 $0011 $0000 $007A
+
+//test conditional jumps
+
+:COND_TEST
+	LD A,0
+	LD B,0
+	#DEBUG_ADDR COND_TEST_BEFORE_TEST1
+	CMP A,B
+	LD D,:COND_TEST_1
+	#DEBUG_ADDR COND_TEST_BEFORE_FAIL1
+	JP Z,D
+	LD C,1
+	LD D,:COND_TEST_DIE
+	JP D
+:COND_TEST_1
+	LD A,98
+	LD B,32
+	#DEBUG_ADDR COND_TEST_BEFORE_TEST2
+	CMP A,B
+	LD C,2
+	LD D,:COND_TEST_DIE
+	#DEBUG_ADDR COND_TEST_BEFORE_FAIL2
+	JP Z,D
+	LD C,0x69
+	#DEBUG_ADDR COND_TEST_BEFORE_FAIL3
+	JP NZ,D
+	LD C,3
+	JP D
+	STOP
+:COND_TEST_DIE
+	LD B,C
+	LD D,0xff
+	STOP

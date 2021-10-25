@@ -25,6 +25,7 @@ function assembleOpcode(o,h,e) {
 
 const compiled = new Uint16Array(ROM_SIZE).fill(0);
 const deferred = [];
+const debug_addr = [];
 
 let ptr = 0;
 function handlePtrChange() {
@@ -35,7 +36,7 @@ function handlePtrChange() {
 function pushOpcode(o,h,e) {
   if(typeof(h)=='string') h = regIndex(h);
   compiled[ptr++] = assembleOpcode(o,h,e);
-  process.stdout.write(`(${(e|0).toString(2)} ${(h|0).toString(16)} ${(o|0).toString(16)}) `);
+  process.stdout.write(`(${(e|0).toString(2)} ${(h|0).toString(16)} ${(o|0).toString(16)} => ${compiled[ptr-1].toString(16)}) `);
   handlePtrChange();
 }
 function pushData(v) {
@@ -53,7 +54,7 @@ function jumpTo(addr) {
   ptr = parseInt(addr);
   handlePtrChange();
 }
-jumpTo();
+jumpTo(0);
 
 const file = fs.readFileSync(filename,'utf8');
 const lines = file.split('\n');
@@ -83,6 +84,10 @@ lines.forEach((v,i) => {
     case '#AT':
     case '#ADDR':
       jumpTo(args[0]);
+      break;
+    case '#DEBUG':
+    case '#DEBUG_ADDR':
+      debug_addr.push(ptr.toString(16) + ' ' + (args[0] || ''));
       break;
     case 'NOOP':
     case 'NOP':
@@ -225,6 +230,11 @@ lines.forEach((v,i) => {
   console.log('');
 });
 console.log('');
+
+if(debug_addr.length > 0) {
+  console.log('Debug info:')
+  console.log('$'+debug_addr.join('\n$')+'\n')
+}
 for(const val of deferred) {
   if(val[2]) {
     let ptr = val[0];
