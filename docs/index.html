@@ -101,111 +101,133 @@
 				<div class="tab">
 					<table>
 						<tr>
-							<th></th>
+							<th class="instr-s">s</th>
+							<th class="instr-i">i</th>
 							<th>Instr</th>
 							<th>Description</th>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">00</td>
 							<td class="code-font">NOP</td>
 							<td>Does nothing</td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">01</td>
 							<td class="code-font">RST</td>
 							<td>Reset A,B,C,D and PC</td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">02</td>
 							<td class="code-font">RST</td>
 							<td>Reset A,B,C,D and PC</td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">04</td>
 							<td class="code-font">-</td>
 							<td class="code-font">-</td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">05</td>
 							<td class="code-font">-</td>
 							<td class="code-font">-</td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">06</td>
 							<td class="code-font">LD <span class="instr-r">r</span>,A</td>
 							<td>Load value of <span class="code-font">A</span> into <span class="instr-r">r</span></td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">07</td>
 							<td class="code-font">LD <span class="instr-r">r</span>,B</td>
 							<td>Load value of <span class="code-font">B</span> into <span class="instr-r">r</span></td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">08</td>
 							<td class="code-font">LD <span class="instr-r">r</span>,C</td>
 							<td>Load value of <span class="code-font">C</span> into <span class="instr-r">r</span></td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">08</td>
 							<td class="code-font">LD <span class="instr-r">r</span>,D</td>
 							<td>Load value of <span class="code-font">D</span> into <span class="instr-r">r</span></td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">0A</td>
 							<td class="code-font">LD A,[<span class="instr-r">r</span>]</td>
 							<td>Read mem at location <span class="instr-r">r</span> into <span class="code-font">A</span></td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">0B</td>
 							<td class="code-font">LD [<span class="instr-r">r</span>],A</td>
 							<td>Write the value of <span class="code-font">A</span> to mem at location <span class="instr-r">r</span></td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">0C</td>
 							<td class="code-font">ADD A,<span class="instr-r">r</span></td>
 							<td>Add the value of <span class="instr-r">r</span> to <span class="code-font">A</span></td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">0D</td>
 							<td class="code-font">SUB A,<span class="instr-r">r</span></td>
 							<td>Subtract the value of <span class="instr-r">r</span> from <span class="code-font">A</span></td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">0E</td>
 							<td class="code-font">MUL A,<span class="instr-r">r</span></td>
 							<td>Multiply <span class="code-font">A</span> by <span class="instr-r">r</span> and store the result in <span class="code-font">A</span></td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">0F</td>
 							<td class="code-font">CMP A,<span class="instr-r">r</span></td>
 							<td>Compare <span class="instr-r">r</span> and <span class="code-font">A</span>. 0 - (<span class="code-font">A</span>==<span class="instr-r">r</span>); 2 - (<span class="code-font">A</span>><span class="instr-r">r</span>); 4 - (<span class="code-font">A</span><<span class="instr-r">r</span>)</td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">10</td>
 							<td class="code-font">JP <span class="instr-r">r</span></td>
 							<td>Jump to <span class="instr-r">r</span></td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">11</td>
 							<td class="code-font">JP Z,<span class="instr-r">r</span></td>
 							<td>Jump to <span class="instr-r">r</span> if Zero flag is set</td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">12</td>
 							<td class="code-font">JP NZ,<span class="instr-r">r</span></td>
 							<td>Jump to <span class="instr-r">r</span> if Zero flag is not set</td>
 						</tr>
 						<tr id="_i_halt">
+							<td>0</td>
 							<td class="center-text">13</td>
 							<td class="code-font">IOHALT</td>
 							<td>Wait for IO_WAKE tick</td>
 						</tr>
 						<tr id="_io_trig">
+							<td>0</td>
 							<td class="center-text">14</td>
 							<td class="code-font">IOTRIG</td>
 							<td>Send a pulse to the I/O device</td>
 						</tr>
 						<tr>
+							<td>0</td>
 							<td class="center-text">00</td>
 							<td class="code-font">TODO</td>
 							<td>TODO</td>
