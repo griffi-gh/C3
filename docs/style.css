@@ -17,7 +17,40 @@ html,body { min-height: 100%; margin: 0; }
 	--instr-s: #FF8200;
 	--instr-r: #F9C22E;
 	--instr-i: #53B3CB;
+	--light-switch-size: 1.5rem;
+	--light-offset: .25rem;
 }
+
+#light-deco {
+	color: rgb(var(--content-color));
+	pointer-events: none;
+}
+#light-deco svg {
+	width: var(--light-switch-size);
+	height: var(--light-switch-size);
+}
+#light-deco svg * {
+	fill: rgb(var(--content-color));
+}
+#light-deco,#light {
+	position: fixed;
+	top: var(--light-offset);
+	left: var(--light-offset);
+	width: var(--light-switch-size);
+	height: var(--light-switch-size);
+	margin: 0;
+	padding: 0;
+}
+#light {
+	opacity: 0;
+}
+#light:checked ~ *, #light:checked ~ #body-wrapper {
+	--background-color: 225, 225, 219;
+	--content-color: 0,0,0;
+	--table-header: 0,0,0,.075;
+	/*--code-view: #ffffff;*/
+}
+
 .instr-u { color: var(--instr-u); font-family: SourceCodePro; }
 .instr-s { color: var(--instr-s); font-family: SourceCodePro; }
 .instr-r { color: var(--instr-r); font-family: SourceCodePro; }
@@ -40,7 +73,7 @@ html {
 	margin: 0;
 	padding: 0;
 }
-body {
+#body-wrapper {
 	padding: 2rem 10vw;
 	font-family: OpenSans;
 	color: rgb(var(--content-color));
