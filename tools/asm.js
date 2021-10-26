@@ -7,7 +7,7 @@ class CompileError extends Error {
 }
 try {
   if(!process.argv[2]) {
-    throw new CompileError("Please, i beg you! Specify a you want to compile!")
+    throw new CompileError("File not selected.")
   }
   let filename = (process.argv.slice(2).join(' ') || 'PROGRAM.c3asm');
   const fs = require('fs');
@@ -217,6 +217,13 @@ try {
           } else {
             pushOpcode(16,args[0]);
           }
+        }
+        break;
+      case 'FUCK':
+      case 'WINDOWS':
+      case 'PENGUIN':
+        for(var i=0; i<100; i++) {
+          debug_addr.push("FUCK WINDOWS");
         }
         break;
       case '//':
