@@ -1,12 +1,12 @@
-LD B,0x8000
-LD C,1
+LD D,0x8000
+LD B,0x69
 :LOOP
-	LD A,0x6969
-	LD [B],A
 	LD A,B
+	LD [D],A
+	LD A,D
+	LD C,1
 	ADD A,C
-	LD B,A
-	LD D,:LOOP
-	JP NC,D
-	LD D,0xEEEE
-	STOP
+	LD D,A
+	LD C,:LOOP
+	JP NC,C
+STOP
