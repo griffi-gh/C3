@@ -4,22 +4,32 @@ LD B,1
 //first,test non-causes
 LD C,1
 LD A,0xfffe
+#DEBUG TEST1_ADD
 ADD A,B
+#DEBUG TEST1_JP1
+JP Z,D
+#DEBUG TEST1_JP2
 JP C,D
+
 
 //test overflow check with CMP
 LD C,2
 LD A,0xffff
+#DEBUG TEST2_ADD
 ADD A,B
 LD B,0
+#DEBUG TEST2_CMP
 CMP A,B
+#DEBUG TEST2_JP
 JP NZ,D
 
 //test carry for ADD
 LD C,3
 LD A,0xffff
 LD B,1
+#DEBUG TEST3_ADD
 ADD A,B
+#DEBUG TEST3_JP
 JP NC,D
 
 //test non-causes again
@@ -27,15 +37,19 @@ JP NC,D
 //properly reset
 LD C,4
 LD A,0xfffe
+#DEBUG TEST4_ADD
 ADD A,B
+#DEBUG TEST4_JP
 JP C,D
 
 //test passed!
 //fill registers with 6969
+#DEBUG SUCC
 LD A,0x6969
 LD B,A
 LD C,A
 LD D,A
 
 :FAIL
+#DEBUG END
 STOP

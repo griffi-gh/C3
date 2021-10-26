@@ -87,7 +87,7 @@ lines.forEach((v,i) => {
       break;
     case '#DEBUG':
     case '#DEBUG_ADDR':
-      debug_addr.push(ptr.toString(16) + ' ' + (args[0] || ''));
+      debug_addr.push(ptr.toString(16) + '\t' + (args[0] || ''));
       break;
     case 'NOOP':
     case 'NOP':
