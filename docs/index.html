@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="style.css">
 		<script type="text/javascript"><!--
 			// Save/Load checkbox state
-			// We don't use js for anything else
+			// I don't use js for anything else
 			"use strict";
 			var g = (window||global||globalThis);
 			window.addEventListener('DOMContentLoaded', function() {
@@ -107,14 +107,24 @@
 								<td>Value of the IO_OUT register (<a href="#_io_write">IOWRT</a>)</td>
 						  </tr>
 						  <tr>
+								<td>IO_IN</td>
+								<td class="center-text">Input</td>
+								<td>Value for the <a href="#_io_read">IOREAD</a> instr</td>
+						  </tr>
+						  <tr>
+								<td>IO_CPUHLT</td>
+								<td class="center-text">Output</td>
+								<td>1 if cpu is currently <a href="#_i_halt">HALT</a>ed</td>
+						  </tr>
+						  <tr>
 								<td>IO_WAKE</td>
 								<td class="center-text">Input</td>
 								<td>Un<a href="#_i_halt">HALT</a> the CPU</td>
 						  </tr>
 						  <tr>
-								<td>IO_IN</td>
+						  	<td>IO_SLEEP</td>
 								<td class="center-text">Input</td>
-								<td>Value for the <a href="#_io_read">IOREAD</a> instr</td>
+								<td><a href="#_i_halt">HALT</a> the CPU (Without waiting for instrution to finish)</td>
 						  </tr>
 						</table>
 					</div>
