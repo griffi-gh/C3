@@ -53,13 +53,13 @@
 					<h2 id="_registers">Registers</h2>
 					<div class="tab">
 						<ul>
-							<li>4 (16 bit) general-purpose registers: <b>A, B, C and D</b></li>
+							<li>Four (16 bit) general-purpose registers: <b>A, B, C and D</b></li>
 							<li>
-								2 binary flag registers (<b>Z</b>ero and <b>C</b>arry)<br>
+								Two binary flag registers (<b>Z</b>ero and <b>C</b>arry)<br>
 								Zero register gets set if last alu operation result is 0
 								Carry gets set if last apu operation cases an overflow
 							</li>
-							<li>1 8-bit <a href="#_io">I/O</a> register: IO_OUT (Write-only)</li>
+							<li>One (16-bit) <a href="#_io">I/O</a> register: IO_OUT (Write-only)</li>
 						</ul>
 					</div>
 					<h2 id="_mmap">Memory map</h2>
@@ -155,187 +155,193 @@
 								<th>Description</th>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">00</td>
 								<td class="code-font">NOP</td>
 								<td>Does nothing</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">01</td>
 								<td class="code-font">RST</td>
 								<td>Reset A,B,C,D and PC</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">02</td>
 								<td class="code-font">RST</td>
 								<td>Reset A,B,C,D and PC</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
+								<td class="center-text">03</td>
+								<td class="code-font">-</td>
+								<td class="code-font">-</td>
+							</tr>
+							<tr>
+								<td class="center-text">0</td>
 								<td class="center-text">04</td>
 								<td class="code-font">-</td>
 								<td class="code-font">-</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">05</td>
-								<td class="code-font">-</td>
-								<td class="code-font">-</td>
-							</tr>
-							<tr>
-								<td>0</td>
-								<td class="center-text">06</td>
 								<td class="code-font">LD <span class="instr-r">r</span>,A</td>
 								<td>Load value of <span class="code-font">A</span> into <span class="instr-r">r</span></td>
 							</tr>
 							<tr>
-								<td>0</td>
-								<td class="center-text">07</td>
+								<td class="center-text">0</td>
+								<td class="center-text">06</td>
 								<td class="code-font">LD <span class="instr-r">r</span>,B</td>
 								<td>Load value of <span class="code-font">B</span> into <span class="instr-r">r</span></td>
 							</tr>
 							<tr>
-								<td>0</td>
-								<td class="center-text">08</td>
+								<td class="center-text">0</td>
+								<td class="center-text">07</td>
 								<td class="code-font">LD <span class="instr-r">r</span>,C</td>
 								<td>Load value of <span class="code-font">C</span> into <span class="instr-r">r</span></td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">08</td>
 								<td class="code-font">LD <span class="instr-r">r</span>,D</td>
 								<td>Load value of <span class="code-font">D</span> into <span class="instr-r">r</span></td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
+								<td class="center-text">09</td>
+								<td class="code-font">LD <span class="instr-r">r</span>,[PC++]</td>
+								<td>Load value in the next memory cell into <span class="instr-r">r</span></td>
+							</tr>
+							<tr>
+								<td class="center-text">0</td>
 								<td class="center-text">0A</td>
 								<td class="code-font">LD A,[<span class="instr-r">r</span>]</td>
 								<td>Read mem at location <span class="instr-r">r</span> into <span class="code-font">A</span></td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">0B</td>
 								<td class="code-font">LD [<span class="instr-r">r</span>],A</td>
 								<td>Write the value of <span class="code-font">A</span> to mem at location <span class="instr-r">r</span></td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">0C</td>
 								<td class="code-font">ADD A,<span class="instr-r">r</span></td>
 								<td>Add the value of <span class="instr-r">r</span> to <span class="code-font">A</span></td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">0D</td>
 								<td class="code-font">SUB A,<span class="instr-r">r</span></td>
 								<td>Subtract the value of <span class="instr-r">r</span> from <span class="code-font">A</span></td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">0E</td>
 								<td class="code-font">MUL A,<span class="instr-r">r</span></td>
 								<td>Multiply <span class="code-font">A</span> by <span class="instr-r">r</span> and store the result in <span class="code-font">A</span></td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">0F</td>
 								<td class="code-font">CMP A,<span class="instr-r">r</span></td>
 								<td>Compare <span class="instr-r">r</span> and <span class="code-font">A</span>. 0 - (<span class="code-font">A</span>==<span class="instr-r">r</span>); 1 - (<span class="code-font">A</span>><span class="instr-r">r</span>); 2 - (<span class="code-font">A</span><<span class="instr-r">r</span>)</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">10</td>
 								<td class="code-font">JP <span class="instr-r">r</span></td>
 								<td>Jump to <span class="instr-r">r</span></td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">11</td>
 								<td class="code-font">JP Z,<span class="instr-r">r</span></td>
 								<td>Jump to <span class="instr-r">r</span> if <b>Z</b>ero flag is set</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">12</td>
 								<td class="code-font">JP NZ,<span class="instr-r">r</span></td>
 								<td>Jump to <span class="instr-r">r</span> if <b>Z</b>ero flag is not set</td>
 							</tr>
 							<tr id="_i_halt">
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">13</td>
 								<td class="code-font">JP C,<span class="instr-r">r</span></td>
 								<td>Jump to <span class="instr-r">r</span> if <b>C</b>arry flag is set</td>
 							</tr>
 							<tr id="_io_trig">
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">14</td>
 								<td class="code-font">JP NC,<span class="instr-r">r</span></td>
 								<td>Jump to <span class="instr-r">r</span> if <b>C</b>arry flag is not set</td>
 							</tr>
 							<tr id="_io_write">
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">15</td>
 								<td class="code-font">IOHALT</td>
 								<td>Wait for <a href="#_io">IO_WAKE</a> tick</td>
 							</tr>
 							<tr id="_io_read">
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">16</td>
 								<td class="code-font">IOTRIG</td>
 								<td>Send a pulse to the <a href="#_io">I/O</a> device</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">17</td>
 								<td class="code-font">IOREAD <span class="instr-r">r</span></td>
 								<td>Set <span class="instr-r">r</span> to the value of <a href="#_io">IO_IN</a> line</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">18</td>
 								<td class="code-font">IOWRT <span class="instr-r">r</span></td>
-								<td>Write <span class="instr-r">r</span>&0xFF to the <a href="#_io">IO_OUT</a> register</td>
+								<td>Write <span class="instr-r">r</span> to the <a href="#_io">IO_OUT</a> register</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">19</td>
 								<td class="code-font">IOSLOT <span class="instr-r">r</span></td>
 								<td>Select <a href="#_io">I/O</a> device with index <span class="instr-r">r</span>&0xFF</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">1A</td>
 								<td class="code-font">-</td>
 								<td class="code-font">-</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">1B</td>
 								<td class="code-font">-</td>
 								<td class="code-font">-</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">1C</td>
 								<td class="code-font">-</td>
 								<td class="code-font">-</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">1D</td>
 								<td class="code-font">-</td>
 								<td class="code-font">-</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">1E</td>
 								<td class="code-font">-</td>
 								<td class="code-font">-</td>
 							</tr>
 							<tr>
-								<td>0</td>
+								<td class="center-text">0</td>
 								<td class="center-text">1F</td>
 								<td class="code-font">-</td>
 								<td class="code-font">-</td>
