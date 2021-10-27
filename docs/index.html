@@ -73,12 +73,12 @@
 							<tr>
 								<td class="center-text">0000</td>
 								<td class="center-text">7FFF</td>
-								<td>64kb ROM (R/O)</td>
+								<td>Up to 64kb ROM (R/O)</td>
 							</tr>
 							<tr>
 								<td class="center-text">8000</td>
 								<td class="center-text">FFFF</td>
-								<td>64kb RAM (R/W)</td>
+								<td>64kb Built-in RAM (R/W)</td>
 							</tr>
 						</table>
 					</div>
@@ -128,6 +128,7 @@
 								<td><a href="#_i_halt">HALT</a> the CPU (Without waiting for instrution to finish)</td>
 						  </tr>
 						</table>
+						TODO: I/O memory access
 					</div>
 					<h2 id="_instr_format">Instruction encoding</h2>
 					<div class="tab">
@@ -538,7 +539,8 @@
 								<td class="code-font">-</td>
 							</tr>
 						</table>
-						(Invalid instructions are equivalent to NOP)
+						(Invalid instructions are equivalent to NOP, but spend all 2 cycles instead of skipping them)<br>
+						TODO: Add instruction lengths
 					</div>
 					<h2>C3 Assembly</h2>
 					<div class="tab">
