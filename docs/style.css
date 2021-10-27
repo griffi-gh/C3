@@ -106,6 +106,9 @@ html {
 	margin: 0;
 	padding: 0;
 }
+.block {
+	display: block;
+}
 #body-wrapper {
 	padding: 2rem 10vw;
 	font-family: OpenSans, Arial;
@@ -149,6 +152,9 @@ h1,h2,h3,h4,h5,h6 {
 	align-items: center;
 	flex-direction: column;
 	text-align: center;
+}
+.center.row {
+	flex-direction: row;
 }
 .center-text {
 	text-align: center;
