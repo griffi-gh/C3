@@ -106,11 +106,15 @@
       <a name="addrWidth" val="15"/>
       <a name="appearance" val="classic"/>
       <a name="contents">addr/data: 15 16
-69 27 29 1 49 1 9 fffe
-2c 71 73 49 2 9 ffff 2c
-29 0 2f 72 49 3 9 ffff
-29 1 2c 74 49 4 9 fffe
-2c 73 9 6969 25 45 65 2
+9 d 10 2 9 1234 29 5678
+49 9abc 69 de69 2 9 69 49
+8001 69 ffff 4b 6b 9 0 29
+0 6a 25 4a 2 9 69 29
+11 2c 65 2d 2 9 0 29
+0 2f 69 32 71 49 1 69
+43 70 9 62 29 20 2f 49
+2 69 43 71 49 69 72 49
+3 70 2 27 69 ff 2
 </a>
       <a name="dataWidth" val="16"/>
     </comp>
@@ -827,6 +831,9 @@
     </comp>
     <comp lib="8" loc="(2156,1475)" name="Text">
       <a name="text" val="JADDR"/>
+    </comp>
+    <comp lib="8" loc="(217,911)" name="Text">
+      <a name="text" val="hacky &gt;&gt;&gt;&gt;"/>
     </comp>
     <comp lib="8" loc="(2526,1522)" name="Text">
       <a name="text" val="ALU FRZ register"/>
