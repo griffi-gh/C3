@@ -91,7 +91,7 @@ try {
     let debugstr = cmd+' '+args.join(',');
     process.stdout.write(debugstr+(' '.repeat(Math.max(0,32-debugstr.length)))+' \t=> ');
 
-    switch(cmd) {
+    switch(cmd.toUpperCase()) {
       case '#AT':
       case '#ADDR':
         jumpTo(args[0]);
@@ -191,7 +191,7 @@ try {
       case 'STRING':
       case 'STR':
         if(args[0].startsWith('"') && args[args.length-1].endsWith('"')) {
-          pushData(args.join(' ').slice(1,-1).split(''));
+          pushData(args.join(' ').slice(1,-1).split('').map(v => v.charCodeAt()));
         } else {
           throw new CompileError("Fucked up string.");
         }
@@ -219,6 +219,34 @@ try {
             pushOpcode(16,args[0]);
           }
         }
+        break;
+      case 'IO_HALT':
+      case 'IOHALT':
+      case 'IO_HLT':
+      case 'IOHLT':
+        pushOpcode(21,0);
+        break;
+      case 'IO_TRIGGER':
+      case 'IOTRIGGER':
+      case 'IO_TRIG':
+      case 'IOTRIG':
+      case 'IO_TRG':
+      case 'IOTRG':
+        pushOpcode(22,0);
+        break;
+      case 'IO_READ':
+      case 'IOREAD':
+      case 'IO_RD':
+      case 'IORD':
+        pushOpcode(23,args[0]);
+        break;
+      case 'IO_WRITE':
+      case 'IOWRITE':
+      case 'IO_WRT':
+      case 'IOWRT':
+      case 'IO_WR':
+      case 'IOWR':
+        pushOpcode(24,args[0]);
         break;
       case '//':
       case 'REM':

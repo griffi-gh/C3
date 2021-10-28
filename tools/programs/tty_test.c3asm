@@ -1,0 +1,25 @@
+LD C,1
+LD B,:data
+LD D,13
+
+:loop
+	LD A,[B]
+	IOWRT A
+	IOTRIG
+
+	//inc B
+	LD A,B
+	ADD A,C
+	LD B,A
+
+	//dec D
+	LD A,D
+	SUB A,C
+	LD D,A
+	
+	LD A,:loop
+	JP NZ,A
+STOP
+
+:data
+STR "Hello world!"
