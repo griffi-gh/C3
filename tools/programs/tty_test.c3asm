@@ -1,8 +1,8 @@
 LD C,1
-LD B,:data
+LD B,:hello
 LD D,13
 
-:loop
+:hello_loop
 	LD A,[B]
 	IOWRT A
 	IOTRIG
@@ -17,9 +17,15 @@ LD D,13
 	SUB A,C
 	LD D,A
 	
-	LD A,:loop
+	LD A,:hello_loop
 	JP NZ,A
-STOP
+:loop
+	IOHALT
+	IOREAD A
+	IOWRT A
+	IOTRIG
+	LD A,:loop
+	JP A
 
-:data
+:hello
 STR "Hello world!"

@@ -105,20 +105,24 @@
     <a name="circuitnamedboxfixedsize" val="true"/>
     <a name="simulationFrequency" val="2048000.0"/>
     <comp lib="0" loc="(250,500)" name="Clock"/>
-    <comp lib="0" loc="(500,470)" name="Bit Extender">
-      <a name="in_width" val="16"/>
-      <a name="out_width" val="7"/>
-      <a name="type" val="zero"/>
-    </comp>
-    <comp lib="4" loc="(250,240)" name="ROM">
+    <comp lib="4" loc="(240,240)" name="ROM">
       <a name="addrWidth" val="15"/>
       <a name="appearance" val="classic"/>
       <a name="contents">addr/data: 15 16
-69 27 29 1 49 1 9 fffe
-2c 71 73 49 2 9 ffff 2c
-29 0 2f 72 49 3 9 ffff
-29 1 2c 74 49 4 9 fffe
-2c 73 9 6969 25 45 65 2
+49 58 69 1 29 0 4a 18
+16 2c 9 13 11 7 6c 45
+9 6 10 9 72 a 65 9
+ffff 18 15 17 6d 29 8000 2b
+16 10*0 15 17 6d 29 8001 2b
+16 69 a 49 2 9 8000 a
+25 9 8001 a 2c 25 6f 4d
+49 4b 51 9 72 a 2c 18
+16 2 9 3e 29 31 49 30
+18 16 38 16 58 16 2 43
+33 20 43 41 4c 43 21 a
+45 4e 54 45 52 20 54 57
+4f 20 4e 55 4d 53 21 a
+0 30
 </a>
       <a name="dataWidth" val="16"/>
     </comp>
@@ -131,11 +135,12 @@
     <comp lib="5" loc="(280,450)" name="Button">
       <a name="label" val="Resume"/>
     </comp>
-    <comp lib="5" loc="(530,470)" name="TTY"/>
+    <comp lib="5" loc="(480,570)" name="Keyboard"/>
     <comp loc="(300,400)" name="CPU"/>
-    <wire from="(240,250)" to="(240,390)"/>
-    <wire from="(240,250)" to="(250,250)"/>
-    <wire from="(240,390)" to="(380,390)"/>
+    <comp loc="(430,400)" name="IO_TERMINAL"/>
+    <wire from="(230,250)" to="(230,390)"/>
+    <wire from="(230,250)" to="(240,250)"/>
+    <wire from="(230,390)" to="(380,390)"/>
     <wire from="(250,500)" to="(300,500)"/>
     <wire from="(280,410)" to="(290,410)"/>
     <wire from="(280,430)" to="(300,430)"/>
@@ -146,21 +151,20 @@
     <wire from="(290,440)" to="(300,440)"/>
     <wire from="(380,390)" to="(380,400)"/>
     <wire from="(400,390)" to="(400,400)"/>
-    <wire from="(400,390)" to="(500,390)"/>
-    <wire from="(420,440)" to="(520,440)"/>
-    <wire from="(420,460)" to="(450,460)"/>
-    <wire from="(450,460)" to="(450,470)"/>
-    <wire from="(450,470)" to="(460,470)"/>
-    <wire from="(490,300)" to="(500,300)"/>
-    <wire from="(500,300)" to="(500,390)"/>
-    <wire from="(500,470)" to="(510,470)"/>
-    <wire from="(510,460)" to="(510,470)"/>
-    <wire from="(510,460)" to="(530,460)"/>
-    <wire from="(520,440)" to="(520,470)"/>
-    <wire from="(520,470)" to="(520,490)"/>
-    <wire from="(520,470)" to="(530,470)"/>
-    <wire from="(520,490)" to="(540,490)"/>
-    <wire from="(540,480)" to="(540,490)"/>
+    <wire from="(400,390)" to="(490,390)"/>
+    <wire from="(420,430)" to="(430,430)"/>
+    <wire from="(420,440)" to="(430,440)"/>
+    <wire from="(420,450)" to="(430,450)"/>
+    <wire from="(420,460)" to="(430,460)"/>
+    <wire from="(450,550)" to="(450,570)"/>
+    <wire from="(450,570)" to="(480,570)"/>
+    <wire from="(480,300)" to="(490,300)"/>
+    <wire from="(490,300)" to="(490,390)"/>
+    <wire from="(610,580)" to="(610,590)"/>
+    <wire from="(610,590)" to="(650,590)"/>
+    <wire from="(620,580)" to="(640,580)"/>
+    <wire from="(640,550)" to="(640,580)"/>
+    <wire from="(650,550)" to="(650,590)"/>
   </circuit>
   <circuit name="CPU">
     <a name="appearance" val="custom"/>
@@ -2200,6 +2204,8 @@
     </comp>
     <comp lib="0" loc="(340,350)" name="Splitter">
       <a name="appear" val="center"/>
+      <a name="bit0" val="1"/>
+      <a name="bit1" val="0"/>
       <a name="bit2" val="none"/>
       <a name="facing" val="west"/>
       <a name="incoming" val="3"/>
@@ -2313,6 +2319,111 @@
     <wire from="(510,250)" to="(580,250)"/>
     <wire from="(510,270)" to="(540,270)"/>
     <wire from="(580,280)" to="(590,280)"/>
+  </circuit>
+  <circuit name="IO_TERMINAL">
+    <a name="appearance" val="custom"/>
+    <a name="circuit" val="IO_TERMINAL"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="2048000.0"/>
+    <appear>
+      <rect fill="#9e9e9e" height="150" rx="10" ry="10" stroke="#000000" width="250" x="60" y="50"/>
+      <visible-tty height="130" path="/TTY(470,380)" stroke-width="0" width="234" x="70" y="60"/>
+      <circ-anchor facing="east" height="6" width="6" x="57" y="47"/>
+      <circ-port height="10" pin="210,320" width="10" x="55" y="75"/>
+      <circ-port height="10" pin="230,360" width="10" x="55" y="95"/>
+      <circ-port height="10" pin="410,420" width="10" x="75" y="195"/>
+      <circ-port height="8" pin="210,340" width="8" x="56" y="86"/>
+      <circ-port height="8" pin="230,380" width="8" x="56" y="106"/>
+      <circ-port height="8" pin="410,440" width="8" x="276" y="196"/>
+      <circ-port height="8" pin="630,430" width="8" x="266" y="196"/>
+    </appear>
+    <comp lib="0" loc="(210,320)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="IO_WAKE"/>
+      <a name="output" val="true"/>
+    </comp>
+    <comp lib="0" loc="(210,340)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="IO_TRIG"/>
+    </comp>
+    <comp lib="0" loc="(230,360)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="IO_IN"/>
+      <a name="output" val="true"/>
+      <a name="radix" val="16"/>
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(230,380)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="IO_OUT"/>
+      <a name="radix" val="16"/>
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(260,300)" name="Constant">
+      <a name="value" val="0xffff"/>
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(360,370)" name="Bit Extender">
+      <a name="in_width" val="16"/>
+      <a name="out_width" val="7"/>
+      <a name="type" val="zero"/>
+    </comp>
+    <comp lib="0" loc="(410,420)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="Clock"/>
+      <a name="output" val="true"/>
+    </comp>
+    <comp lib="0" loc="(410,440)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="facing" val="west"/>
+      <a name="label" val="Avaliable"/>
+    </comp>
+    <comp lib="0" loc="(630,430)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="label" val="KBVal"/>
+      <a name="radix" val="16"/>
+      <a name="width" val="7"/>
+    </comp>
+    <comp lib="0" loc="(670,430)" name="Bit Extender">
+      <a name="in_width" val="7"/>
+      <a name="type" val="zero"/>
+    </comp>
+    <comp lib="1" loc="(360,330)" name="AND Gate">
+      <a name="negate0" val="true"/>
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="3" loc="(300,310)" name="Comparator">
+      <a name="mode" val="unsigned"/>
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="5" loc="(470,380)" name="TTY"/>
+    <wire from="(210,320)" to="(220,320)"/>
+    <wire from="(210,340)" to="(300,340)"/>
+    <wire from="(220,250)" to="(220,320)"/>
+    <wire from="(220,250)" to="(380,250)"/>
+    <wire from="(230,360)" to="(310,360)"/>
+    <wire from="(230,380)" to="(250,380)"/>
+    <wire from="(250,320)" to="(250,380)"/>
+    <wire from="(250,320)" to="(260,320)"/>
+    <wire from="(250,380)" to="(290,380)"/>
+    <wire from="(290,370)" to="(290,380)"/>
+    <wire from="(290,370)" to="(320,370)"/>
+    <wire from="(300,310)" to="(320,310)"/>
+    <wire from="(300,340)" to="(300,420)"/>
+    <wire from="(300,340)" to="(330,340)"/>
+    <wire from="(300,420)" to="(410,420)"/>
+    <wire from="(310,360)" to="(310,460)"/>
+    <wire from="(310,460)" to="(680,460)"/>
+    <wire from="(320,310)" to="(320,320)"/>
+    <wire from="(360,330)" to="(370,330)"/>
+    <wire from="(360,370)" to="(470,370)"/>
+    <wire from="(370,330)" to="(370,380)"/>
+    <wire from="(370,380)" to="(470,380)"/>
+    <wire from="(380,250)" to="(380,440)"/>
+    <wire from="(380,440)" to="(410,440)"/>
+    <wire from="(670,430)" to="(680,430)"/>
+    <wire from="(680,430)" to="(680,460)"/>
   </circuit>
   <circuit name="RisingEdge">
     <a name="appearance" val="custom"/>

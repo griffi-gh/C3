@@ -191,7 +191,7 @@ try {
       case 'STRING':
       case 'STR':
         if(args[0].startsWith('"') && args[args.length-1].endsWith('"')) {
-          pushData(args.join(' ').slice(1,-1).split('').map(v => v.charCodeAt()));
+          pushData(args.join(' ').slice(1,-1).replace(/\\n/g,'\n').replace(/\\0/g,String.fromCharCode(0)).split('').map(v => v.charCodeAt()));
         } else {
           throw new CompileError("Fucked up string.");
         }
@@ -199,25 +199,23 @@ try {
       case 'JUMP':
       case 'JMP':
       case 'JP':
-        if(1) {
-          if(args.length > 1) {
-            let map = {
-              Z: 17,
-              NZ: 18,
-              ['!Z']: 18,
-              C: 19,
-              NC: 20,
-              ['!C']: 20,
-            }
-            let a = args[0].toUpperCase()
-            if(map[a]) {
-              pushOpcode(map[a],args[1]);
-            } else {
-              throw new CompileError("Malformed opcode (JP) at memory address "+ptr.toString(16))
-            }
-          } else {
-            pushOpcode(16,args[0]);
+        if(args.length > 1) {
+          let map = {
+            Z: 17,
+            NZ: 18,
+            ['!Z']: 18,
+            C: 19,
+            NC: 20,
+            ['!C']: 20,
           }
+          let a = args[0].toUpperCase()
+          if(map[a]) {
+            pushOpcode(map[a],args[1]);
+          } else {
+            throw new CompileError("Malformed opcode (JP) at memory address "+ptr.toString(16))
+          }
+        } else {
+          pushOpcode(16,args[0]);
         }
         break;
       case 'IO_HALT':
@@ -256,12 +254,18 @@ try {
         if(cmd.startsWith('//')) break;
         if(cmd.startsWith(':')) {
           let nn = cmd.slice(1);
-          let noJp = false;
-          if(nn.startsWith(':')) {
-            nn = nn.slice(1);
-            noJp = true;
+          if(args[0]) {
+            if(nn.startsWith(':')) {
+              nn = nn.slice(1);
+            } else {
+              jumpTo(parseInt(args[0]));
+            }
+            labels[nn] = parseInt(args[0]);
+          } else {
+            if(nn.startsWith(':')) nn = nn.slice(1);
+            labels[nn] = ptr;
           }
-          labels[nn] = ptr;
+          
           process.stdout.write('(Define '+nn+' at '+ptr.toString(16)+') ');
           deferred.forEach((v,i,d) => {
             if(v[1]==nn) {
@@ -269,9 +273,6 @@ try {
               process.stdout.write('(Fulfill 0x'+v[0].toString(16)+')');
             }
           });
-          if((!noJp) && args[0]) {
-            jumpTo(parseInt(args[0]));
-          }
           break;
         }
         throw new CompileError('Invalid instruction: ' + cmd);

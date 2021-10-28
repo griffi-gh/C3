@@ -1,0 +1,92 @@
+//PRINT
+LD C,:text1
+LD D,1
+LD B,0
+:loop1
+	LD A,[C]
+	IOWRT A
+	IOTRIG
+	ADD A,B
+	LD A,:loop1brk
+	JP Z,A
+	LD A,C
+	ADD A,D
+	LD C,A
+	LD A,:loop1
+	JP :loop1
+	NOP
+:loop1brk
+
+
+LD A,:correction
+LD A,[A]
+LD D,A
+
+LD A,0xffff
+IOWRT A
+
+::num1 0x8000
+IOHALT
+IOREAD A
+SUB A,D
+LD B,:num1
+LD [B],A
+IOTRIG
+
+NOP 10
+
+::num2 0x8001
+IOHALT
+IOREAD A
+SUB A,D
+LD B,:num2
+LD [B],A
+IOTRIG
+
+LD D,10
+LD C,2
+
+LD A,:num1
+LD A,[A]
+LD B,A
+
+LD A,:num2
+LD A,[A]
+
+ADD A,B
+LD B,A
+CMP A,D
+SUB A,C
+LD C,:too_big
+JP Z,C
+
+LD A,:correction
+LD A,[A]
+ADD A,B
+
+IOWRITE A
+IOTRIG
+
+NOP
+STOP
+
+:too_big
+
+LD A,62
+LD B,49
+LD C,48
+IOWRITE A
+IOTRIG
+IOWRITE B
+IOTRIG
+IOWRITE C
+IOTRIG
+
+NOP
+STOP
+
+//DATA AREA
+:text1
+STR "C3 CALC!\nENTER TWO NUMS!\n\0"
+:correction
+DB 48
