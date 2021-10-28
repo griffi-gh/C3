@@ -67,8 +67,8 @@ ADD A,B
 IOWRITE A
 IOTRIG
 
-NOP
-STOP
+LD A,:end
+JP A
 
 :too_big
 
@@ -82,8 +82,15 @@ IOTRIG
 IOWRITE C
 IOTRIG
 
+:end
+IOHALT
+LD A,0xfffe
+IOWRITE A
+IOTRIG
 NOP
-STOP
+LD A,0
+IOWRITE A 
+RST
 
 //DATA AREA
 :text1
