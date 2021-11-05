@@ -1,5 +1,11 @@
 function compileString(str) {
-	for (var i = 0; i < str.length; i++) {
-	  
-	}
+  let tokens = [];
+  if(1){
+    let currentToken;
+    for (var i = 0; i < str.length; i++) {
+      if(!currentToken) {
+        
+      }
+    }
+  }
 }
