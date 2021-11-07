@@ -1,0 +1,12 @@
+{
+  "name": "c3asm",
+  "version": "1.0.0",
+  "description": "The C3 Assembly Language",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "griffi-gh",
+  "license": "ISC",
+  "type": "module"
+}
