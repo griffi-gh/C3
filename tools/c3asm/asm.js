@@ -70,6 +70,17 @@ try {
   const file = fs.readFileSync(filename,'utf8');
   const lines = file.split('\n');
   const labels = {};
+  const macros = {};
+  //macros
+  lines.forEach((v,i) => {
+    v = v.trim();
+    if(v[0]=='%') {
+      let name = v.slice(1);
+      console.log(`Found macro ${name}`)
+      
+    }
+  });
+  //search for static labels
   lines.forEach((v,i) => {
     let l = v.trim().replace('\r','');
     if(l[0]==':') {
@@ -81,6 +92,7 @@ try {
       }
     }
   });
+  //compile
   lines.forEach((v,i) => {
     let cmd = v.trim().replace('\r','');
     if(cmd.length < 1) return;
@@ -114,6 +126,19 @@ try {
       case 'STP':
       case 'HCF':
         pushOpcode(2,0);
+        break;
+      case 'SWP':
+      case 'SWAP':
+        let swap_target = args[0];
+        if(args[1]) {
+          if(regIndex(args[1]) !== 0) {
+            if(regIndex(args[0]) > 0) {
+              throw new CompileError("SPAP can only be used to swap A with B,C,D");
+            }
+            swap_target = args[1];
+          }
+        }
+        pushOpcode(4,swap_target,false);
         break;
       case 'LOAD':
       case 'LD':

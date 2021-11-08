@@ -1,0 +1,7 @@
+LD A,0x22
+LD B,0x11
+LD C,0x33
+LD D,0x44
+SWAP A,B
+STOP
+//expected: 11 22 33 44
