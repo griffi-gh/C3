@@ -1,5 +1,5 @@
 LD D,0x8000
-LD B,0x69
+LD B,0x6969
 :LOOP
 	LD A,B
 	LD [D],A
