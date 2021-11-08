@@ -68,18 +68,32 @@ try {
   jumpTo(0);
 
   const file = fs.readFileSync(filename,'utf8');
-  const lines = file.split('\n');
+  let lines = file.split('\n');
   const labels = {};
   const macros = {};
   //macros
+  let preprData = '';
   lines.forEach((v,i) => {
     v = v.trim();
-    if(v[0]=='%') {
-      let name = v.slice(1);
+    if(curmacro) {
+      if(v=='%end') {
+        curmacro = null;
+      } else {
+        macros[curmacro] += v + '\n';
+      }
+    } else if(v[0]=='%') {
+      let [name,args] = v.slice(1).split('(').map(v => v.trim());
+      args = args.split(',').map(v => v.replace(/\)/g,'').trim());
+      if(macros[name]) {
+        throw new CompileError('redefenition of a macro '+name);
+      }
+      curmacro = name;
       console.log(`Found macro ${name}`)
-      
+    } else {
+      preprData += v + '\n';
     }
   });
+  lines = preprData.split('\n');
   //search for static labels
   lines.forEach((v,i) => {
     let l = v.trim().replace('\r','');
