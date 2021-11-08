@@ -1,0 +1,7 @@
+#include include-test
+
+LD A,1
+
+!test("HI")
+!test("HI")
+!test("HI")

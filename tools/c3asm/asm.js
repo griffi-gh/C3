@@ -1,4 +1,8 @@
 "use strict";
+
+const path = require('path');
+const fs = require('fs');
+
 class CompileError extends Error {
   constructor(message) {
     super(message);
@@ -10,13 +14,18 @@ try {
   if(!process.argv[2]) {
     throw new CompileError("File not selected.")
   }
-  let filename = (process.argv.slice(2).join(' ') || 'PROGRAM.c3asm');
-  const fs = require('fs');
+  const filename = path.resolve(path.normalize(process.argv.slice(2).join(' ') || 'PROGRAM.c3asm'));
+  const reqpath = path.dirname(filename);
+  console.log(`Compiling ${filename} (require path: ${reqpath})\n`)
+  
 
   //const isNum = v => isNaN(parseInt(v));
   const isNum = s => (typeof(s)=="number") || (!!(+s==s && s.length));
+  const escapeRegExp = e => e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 
   const ROM_SIZE = 0x8000;
+  const RAM_SIZE = 0x8000;
+  const MEM_SIZE = 0xFFFF;
 
   const REG_MAP = {a: 0, b: 1, c: 2, d: 3};
   const ALU_OP = {add:0, sub: 1, mul: 2, cmp: 3}
@@ -73,28 +82,97 @@ try {
   const macros = {};
   //macros
   let preprData = '';
-  lines.forEach((v,i) => {
-    v = v.trim();
-    if(curmacro) {
-      if(v=='%end') {
-        curmacro = null;
+  let curmacro;
+  let doAgain = false;
+  console.log('Preprocessor...');
+  let preprStep = 1;
+  do {
+    doAgain = false;
+    console.log('Step '+preprStep);
+    let endParser = false;
+    lines.every(function(v,i) {
+      if(endParser) {
+        preprData += v + '\n';
+        return true;
+      }
+      v = v.trim();
+      let name,args;
+      if(curmacro) {
+        doAgain = true;
+        let m = macros[curmacro];
+        if(v=='%end') {
+          curmacro = null;
+          console.log('End macro');
+          endParser = true;
+        } else {
+          m.str += v + '\n';
+        }
       } else {
-        macros[curmacro] += v + '\n';
+        let name,args;
+        if(v[0]=='%' || v[0]=='!'){
+          [name,args] = v.slice(1).split('(').map(v => v.trim());
+          if(!args.trim().endsWith(')')) {
+            throw new CompileError('Missing ")" at macro ' + (v[0]=='%' ? 'definition' : 'use') + ' (' + name + ')');
+          }
+          args = args.split(',').map(v => v.replace(/\)/g,'').trim());
+          doAgain = true;
+        }
+        if(v[0]=='%') {
+          if(macros[name]) {
+            throw new CompileError('Redefenition of a macro: '+name);
+          }
+          macros[name] = {
+            name: name,
+            str: '',
+            args: args,
+          }
+          curmacro = name;
+          console.log(`Found macro ${name}`);
+        } else if(v[0]=='!') {
+          let m = macros[name];
+          if(m) {
+            let s = m.str;
+            m.args.forEach((x,i) => {
+              let varString = '${' + x + '}';
+              s = s.replace(new RegExp(escapeRegExp(varString), 'g'), args[i]);
+            });
+            //console.log(s);
+            preprData += s + '\n';
+            endParser = true;
+          } else {
+            throw new CompileError('Macro is not defined yet: '+name);
+          }
+        } else if(v.toLowerCase().startsWith('#include')) {
+          let fpath = path.join(reqpath,path.normalize(v.replace('#include','').trim()));
+          if((!fs.existsSync(fpath)) && (!fpath.endsWith('.c3asm'))) {
+            fpath += '.c3asm';
+          }
+          if(!fs.existsSync(fpath)) {
+            throw new CompileError('File does not exist: '+fpath)
+          }
+          console.log('Including ' + fpath);
+          preprData += fs.readFileSync(fpath) + '\n';
+          doAgain = true;
+          endParser = true;
+        } else {
+          preprData += v + '\n';
+        }
       }
-    } else if(v[0]=='%') {
-      let [name,args] = v.slice(1).split('(').map(v => v.trim());
-      args = args.split(',').map(v => v.replace(/\)/g,'').trim());
-      if(macros[name]) {
-        throw new CompileError('redefenition of a macro '+name);
-      }
-      curmacro = name;
-      console.log(`Found macro ${name}`)
-    } else {
-      preprData += v + '\n';
+      return true;
+    });
+    if(curmacro) {
+      throw new CompileError('Missing "%end"?');
     }
-  });
-  lines = preprData.split('\n');
+    lines = preprData.split('\n');
+    if(endParser) doAgain = true;
+    if(doAgain) {
+      preprStep++;
+      preprData = '';
+    }
+  } while(doAgain);
+  console.log('Preprocessor finish');
   //search for static labels
+  console.log('\nScanning labels...\n');
   lines.forEach((v,i) => {
     let l = v.trim().replace('\r','');
     if(l[0]==':') {
@@ -107,6 +185,7 @@ try {
     }
   });
   //compile
+  console.log('Compiler...\n');
   lines.forEach((v,i) => {
     let cmd = v.trim().replace('\r','');
     if(cmd.length < 1) return;
