@@ -344,6 +344,12 @@ ffff 18 15 17 6d 29 8000 2b
     <comp lib="0" loc="(660,610)" name="Pull Resistor">
       <a name="facing" val="east"/>
     </comp>
+    <comp lib="0" loc="(720,1680)" name="Pull Resistor">
+      <a name="facing" val="east"/>
+    </comp>
+    <comp lib="0" loc="(720,1720)" name="Pull Resistor">
+      <a name="facing" val="east"/>
+    </comp>
     <comp lib="0" loc="(830,510)" name="Bit Extender">
       <a name="in_width" val="16"/>
       <a name="out_width" val="8"/>
@@ -555,7 +561,8 @@ ffff 18 15 17 6d 29 8000 2b
       <a name="control" val="left"/>
       <a name="width" val="16"/>
     </comp>
-    <comp lib="1" loc="(1550,970)" name="Buffer">
+    <comp lib="1" loc="(1550,970)" name="Controlled Buffer">
+      <a name="control" val="left"/>
       <a name="facing" val="south"/>
     </comp>
     <comp lib="1" loc="(1560,310)" name="AND Gate">
@@ -568,7 +575,7 @@ ffff 18 15 17 6d 29 8000 2b
     <comp lib="1" loc="(1570,810)" name="AND Gate">
       <a name="size" val="30"/>
     </comp>
-    <comp lib="1" loc="(1570,970)" name="Buffer">
+    <comp lib="1" loc="(1570,970)" name="Controlled Buffer">
       <a name="facing" val="south"/>
     </comp>
     <comp lib="1" loc="(1590,700)" name="AND Gate">
@@ -1373,7 +1380,7 @@ ffff 18 15 17 6d 29 8000 2b
     <wire from="(1500,820)" to="(1540,820)"/>
     <wire from="(1500,950)" to="(1500,1200)"/>
     <wire from="(1510,570)" to="(1510,660)"/>
-    <wire from="(1510,860)" to="(1550,860)"/>
+    <wire from="(1510,860)" to="(1560,860)"/>
     <wire from="(1510,920)" to="(1510,940)"/>
     <wire from="(1520,1520)" to="(2370,1520)"/>
     <wire from="(1520,270)" to="(1520,320)"/>
@@ -1394,19 +1401,20 @@ ffff 18 15 17 6d 29 8000 2b
     <wire from="(1550,540)" to="(1550,600)"/>
     <wire from="(1550,600)" to="(1550,660)"/>
     <wire from="(1550,600)" to="(1680,600)"/>
-    <wire from="(1550,860)" to="(1550,950)"/>
-    <wire from="(1550,860)" to="(1570,860)"/>
+    <wire from="(1550,950)" to="(1560,950)"/>
     <wire from="(1550,970)" to="(1550,1680)"/>
     <wire from="(1560,310)" to="(1570,310)"/>
     <wire from="(1560,690)" to="(1560,720)"/>
     <wire from="(1560,720)" to="(1580,720)"/>
+    <wire from="(1560,860)" to="(1560,950)"/>
+    <wire from="(1560,860)" to="(1630,860)"/>
+    <wire from="(1560,950)" to="(1560,960)"/>
+    <wire from="(1560,950)" to="(1570,950)"/>
     <wire from="(1570,1720)" to="(2310,1720)"/>
     <wire from="(1570,310)" to="(1570,330)"/>
     <wire from="(1570,630)" to="(1570,660)"/>
     <wire from="(1570,630)" to="(1600,630)"/>
     <wire from="(1570,810)" to="(1610,810)"/>
-    <wire from="(1570,860)" to="(1570,950)"/>
-    <wire from="(1570,860)" to="(1630,860)"/>
     <wire from="(1570,970)" to="(1570,1720)"/>
     <wire from="(1580,530)" to="(1580,590)"/>
     <wire from="(1580,590)" to="(1580,670)"/>
@@ -1890,9 +1898,9 @@ ffff 18 15 17 6d 29 8000 2b
     <wire from="(690,1620)" to="(1640,1620)"/>
     <wire from="(690,1640)" to="(1710,1640)"/>
     <wire from="(690,1660)" to="(1700,1660)"/>
-    <wire from="(690,1680)" to="(1550,1680)"/>
+    <wire from="(690,1680)" to="(720,1680)"/>
     <wire from="(690,1700)" to="(1590,1700)"/>
-    <wire from="(690,1720)" to="(1570,1720)"/>
+    <wire from="(690,1720)" to="(720,1720)"/>
     <wire from="(690,480)" to="(690,540)"/>
     <wire from="(690,540)" to="(690,570)"/>
     <wire from="(690,540)" to="(730,540)"/>
@@ -1904,6 +1912,8 @@ ffff 18 15 17 6d 29 8000 2b
     <wire from="(710,470)" to="(710,980)"/>
     <wire from="(710,980)" to="(1120,980)"/>
     <wire from="(720,1080)" to="(1130,1080)"/>
+    <wire from="(720,1680)" to="(1550,1680)"/>
+    <wire from="(720,1720)" to="(1570,1720)"/>
     <wire from="(720,250)" to="(720,500)"/>
     <wire from="(720,250)" to="(990,250)"/>
     <wire from="(720,510)" to="(720,1080)"/>
@@ -2328,13 +2338,13 @@ ffff 18 15 17 6d 29 8000 2b
     <a name="simulationFrequency" val="2048000.0"/>
     <appear>
       <rect fill="#9e9e9e" height="150" rx="10" ry="10" stroke="#000000" width="250" x="60" y="50"/>
-      <visible-tty height="130" path="/TTY(470,380)" stroke-width="0" width="234" x="70" y="60"/>
       <polyline fill="none" points="60,60 84,60" stroke="#000000"/>
       <polyline fill="none" points="60,70 70,70" stroke="#000000"/>
       <polyline fill="none" points="60,80 70,80" stroke="#000000"/>
       <polyline fill="none" points="60,90 70,90" stroke="#000000"/>
       <polyline fill="none" points="60,100 70,100" stroke="#000000"/>
       <polyline fill="none" points="60,110 70,110" stroke="#000000"/>
+      <visible-tty height="130" path="/TTY(470,380)" stroke-width="0" width="234" x="70" y="60"/>
       <circ-anchor facing="east" height="6" width="6" x="57" y="47"/>
       <circ-port height="10" pin="210,320" width="10" x="55" y="75"/>
       <circ-port height="10" pin="230,360" width="10" x="55" y="95"/>
@@ -2560,14 +2570,14 @@ ffff 18 15 17 6d 29 8000 2b
     </appear>
     <comp lib="0" loc="(40,10)" name="Pin">
       <a name="appearance" val="classic"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
       <a name="pull" val="down"/>
       <a name="radix" val="16"/>
       <a name="width" val="16"/>
     </comp>
     <comp lib="0" loc="(40,10)" name="Pin">
       <a name="appearance" val="classic"/>
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
       <a name="pull" val="down"/>
       <a name="radix" val="16"/>
       <a name="width" val="16"/>
