@@ -1,0 +1,54 @@
+LD B,0x80
+:loop
+	LD C,0x8000
+	LD A,0x6942
+	LD D,A
+
+	SWAP B
+	ADD A,C
+	SWAP B
+	LD [B],A
+	LD A,[B]
+	SWAP B
+	SUB A,C
+	SWAP B
+
+	CMP A,D
+	LD D,:fail
+	JP NZ,D
+
+	LD D,1
+	SWAP B
+	SUB A,D
+	SWAP B
+
+	LD D,:loop
+	JP NZ,D
+
+LD A,0
+LD B,A
+LD C,A
+LD D,0x1FF
+JP D
+
+:fail
+	LD A,102
+	LD B,97
+	IOWRT A
+	IOTRIG
+	IOWRT B
+	IOTRIG
+	LD A,105
+	LD B,108 
+	IOWRT A
+	IOTRIG
+	IOWRT B
+	IOTRIG
+:stoploop
+	STOP
+	LD D,:stoploop
+	JP D
+	STOP
+
+#ADDR 0x1FF
+LD D,A

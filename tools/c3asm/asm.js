@@ -36,11 +36,11 @@ try {
 
   function assembleOpcode(o,h,e) {
     //[E][HH][OOOOO]
-    //E - Extended set (NYI)
+    //E - Extended set
     //H - High Bits (Register select)
     //O - Opcode
     if(typeof(h)=='string') h = regIndex(h);
-    return o|(h<<5)||(e<<7);
+    return o|(h<<5)|(e<<7);
   }
 
   const compiled = new Uint16Array(ROM_SIZE).fill(0);
@@ -111,6 +111,9 @@ try {
         let name,args;
         if(v[0]=='%' || v[0]=='!'){
           [name,args] = v.slice(1).split('(').map(v => v.trim());
+          if(!args) {
+            throw new CompileError('Missing "(" at macro ' + (v[0]=='%' ? 'definition' : 'use') + ' (' + name + ')');
+          }
           if(!args.trim().endsWith(')')) {
             throw new CompileError('Missing ")" at macro ' + (v[0]=='%' ? 'definition' : 'use') + ' (' + name + ')');
           }
@@ -363,6 +366,9 @@ try {
       case 'IO_WR':
       case 'IOWR':
         pushOpcode(24,args[0]);
+        break;
+      case 'PUSH':
+        pushOpcode(1,args[0],1);
         break;
       case '//':
       case 'REM':

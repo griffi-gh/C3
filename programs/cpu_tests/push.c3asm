@@ -1,0 +1,16 @@
+#include ../common
+
+LD A,0x6969
+PUSH A
+LD B,0xFFFF
+SWAP C
+LD A,[B]
+SWAP C
+CMP A,C
+LD D,:succ
+JP Z,D
+LD D,:fail
+JP D
+STOP
+
+!succfail()

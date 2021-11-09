@@ -1,0 +1,42 @@
+%succ()
+	STOP
+	:succ
+		LD A,0x6F
+		LD B,0x6B
+		IOWRT A
+		IOTRIG
+		IOWRT B
+		IOTRIG
+		LD A,0x6969
+		LD B,A
+		LD C,A
+		LD D,A
+		STOP
+%end
+
+%fail()
+	STOP
+	:fail
+		LD A,102
+		LD B,97
+		IOWRT A
+		IOTRIG
+		IOWRT B
+		IOTRIG
+		LD A,105
+		LD B,108 
+		IOWRT A
+		IOTRIG
+		IOWRT B
+		IOTRIG
+		LD A,C
+		LD B,0
+		LD C,B
+		LD D,B
+		STOP
+%end
+
+%succfail()
+	!succ()
+	!fail()
+%end

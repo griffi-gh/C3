@@ -10,11 +10,28 @@
 LD A,0x1234
 LD B,0x1234
 CMP A,B
-LD C,0x1111
+LD C,1
+!jump_cond(:fail,C)
+LD C,2
 !jump_cond(:fail,NZ)
 ADD A,0
-LD C,0x2222
+LD C,3
+!jump_cond(:fail,C)
 !jump_cond(:fail,NZ)
+
+LD A,0xffff
+LD B,0xfffe
+CMP A,B
+LD C,4
+!jump_cond(:fail,Z)
+LD C,5
+!jump_cond(:fail,NC)
+LD D,2
+SUB A,D
+LD D,6
+!jump_cond(:fail,NZ)
+LD D,7
+!jump_cond(:fail,C)
 
 :succ
 LD A,0x6F
@@ -27,8 +44,24 @@ LD A,0x6969
 LD B,A
 LD C,A
 LD D,A
-
-:fail	
 STOP
+
+:fail
+LD A,102
+LD B,97
+IOWRT A
+IOTRIG
+IOWRT B
+IOTRIG
+LD A,105
+LD B,108 
+IOWRT A
+IOTRIG
+IOWRT B
+IOTRIG
+LD A,C
+LD B,0
+LD C,B
+LD D,B
 STOP
 
