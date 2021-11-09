@@ -292,7 +292,7 @@ try {
         if(1){
           let a = args[0];
           let b = args[1];
-          let opcode = 12+ALU_OP[cmd.toLowerCase()];
+          let opcode = 12+ALU_OP[cmd.trim().toLowerCase()];
           if(b && (regIndex(a)!==0)) {
             throw new CompileError("Only A register can be used as target!");
             return;
