@@ -14,6 +14,14 @@
 		STOP
 %end
 
+%stoploop()
+	:loop<<unique>>
+	STOP
+	LD A,:loop<<unique>>
+	JP A
+	STOP
+%end
+
 %fail()
 	STOP
 	:fail
@@ -33,10 +41,60 @@
 		LD B,0
 		LD C,B
 		LD D,B
-		STOP
+		!stoploop()
 %end
 
 %succfail()
 	!succ()
 	!fail()
+%end
+
+%assertPop(v)
+	LD A,${v}
+	POP B
+	CMP A,B
+	LD A,:fail
+	JP NZ,A
+%end
+
+%assertPop4(a,b,c,d)
+	!assertPop(${a})
+	!assertPop(${b})
+	!assertPop(${c})
+	!assertPop(${d})
+%end
+
+%loadReg(a,b,c,d)
+	LD A,${a}
+	LD B,${b}
+	LD C,${c}
+	LD D,${d}
+%end
+
+%clearReg(v)
+	LD A,${v}
+	LD B,A
+	LD C,A
+	LD D,A
+%end
+
+%pusha()
+	PUSH D
+	PUSH C
+	PUSH B
+	PUSH A
+%end
+%PUSHA()
+	!pusha()
+%end
+
+%popa()
+	POP A
+	POP B
+	POP C
+	POP D
+%end
+
+%POPA()
+	!popa()
 %end

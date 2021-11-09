@@ -1,3 +1,5 @@
+//TODO replace this comiler
+
 "use strict";
 
 const path = require('path');
@@ -9,6 +11,13 @@ class CompileError extends Error {
     this.name = "CompileError";
   }
 }
+
+function uniqueId() {
+  return (Math.random() + 1).toString(36).substring(2) + (Math.random() + 1).toString(36).substring(2);
+}
+const isNum = s => (typeof(s)=="number") || (!!(+s==s && s.length));
+const escapeRegExp = e => e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+
 try {
   console.log('C3Asm - The C3 CPU Architecture Assembler\nhttps://github.com/griffi-gh/C3\n');
   if(!process.argv[2]) {
@@ -17,11 +26,6 @@ try {
   const filename = path.resolve(path.normalize(process.argv.slice(2).join(' ') || 'PROGRAM.c3asm'));
   const reqpath = path.dirname(filename);
   console.log(`Compiling ${filename} (require path: ${reqpath})\n`)
-  
-
-  //const isNum = v => isNaN(parseInt(v));
-  const isNum = s => (typeof(s)=="number") || (!!(+s==s && s.length));
-  const escapeRegExp = e => e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 
   const ROM_SIZE = 0x8000;
   const RAM_SIZE = 0x8000;
@@ -40,7 +44,7 @@ try {
     //H - High Bits (Register select)
     //O - Opcode
     if(typeof(h)=='string') h = regIndex(h);
-    return o|(h<<5)|(e<<7);
+    return (o&0x1f)|((h & 0b11)<<5)|((e & 1)<<7);
   }
 
   const compiled = new Uint16Array(ROM_SIZE).fill(0);
@@ -139,6 +143,7 @@ try {
               let varString = '${' + x + '}';
               s = s.replace(new RegExp(escapeRegExp(varString), 'g'), args[i]);
             });
+            s = s.replace(/\<\<unique\>\>/g,'_'+uniqueId());
             //console.log(s);
             preprData += s + '\n';
             endParser = true;
@@ -211,7 +216,7 @@ try {
       case 'NOOP':
       case 'NOP':
         for(let i=0; i<parseInt(args[0]|0); i++) {
-          pushOpcode(0,0,false);
+          pushOpcode(0,0,args[1] ? (args[1].trim().toLowerCase()[0] === 'e') : false);
         }
         break;
       case 'RST':
@@ -369,6 +374,9 @@ try {
         break;
       case 'PUSH':
         pushOpcode(1,args[0],1);
+        break;
+      case 'POP':
+        pushOpcode(2,args[0],1);
         break;
       case '//':
       case 'REM':

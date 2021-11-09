@@ -11,6 +11,14 @@ LD D,:succ
 JP Z,D
 LD D,:fail
 JP D
+POP A
+
+//set up stack
+!loadReg(0x1234,0x5678,0x7654,0x3210)
+!pusha()
+!clearReg(0)
+!assertPop4(0x1234,0x5678,0x7654,0x3210)
+
 STOP
 
 !succfail()
