@@ -1,4 +1,4 @@
-#include ../common
+#include std
 
 LD A,0x6969
 PUSH A

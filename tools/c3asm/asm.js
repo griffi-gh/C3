@@ -151,12 +151,17 @@ try {
             throw new CompileError('Macro is not defined yet: '+name);
           }
         } else if(v.toLowerCase().startsWith('#include')) {
-          let fpath = path.join(reqpath,path.normalize(v.replace('#include','').trim()));
+          let iname = v.replace('#include','').trim()
+          let fpath = path.join(reqpath,path.normalize(iname));
           if((!fs.existsSync(fpath)) && (!fpath.endsWith('.c3asm'))) {
             fpath += '.c3asm';
           }
           if(!fs.existsSync(fpath)) {
-            throw new CompileError('File does not exist: '+fpath)
+            if(iname == 'std'){
+              fpath = './common.c3asm';
+            } else {
+              throw new CompileError('File does not exist: '+fpath);
+            }
           }
           console.log('Including ' + fpath);
           preprData += fs.readFileSync(fpath) + '\n';

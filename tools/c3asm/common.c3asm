@@ -84,9 +84,6 @@
 	PUSH B
 	PUSH A
 %end
-%PUSHA()
-	!pusha()
-%end
 
 %popa()
 	POP A
@@ -95,6 +92,27 @@
 	POP D
 %end
 
-%POPA()
+%print(str)
+	!pusha()
+	LD C,1
+	LD B,${str}
+	:loop<<unique>>
+		LD A,[B]
+
+		LD D,0
+		ADD A,D
+		LD D,:break<<unique>>
+		JP Z,D
+
+		IOWRITE A
+		IOTRIG
+
+		LD A,B
+		ADD A,C
+		LD B,A
+
+		LD D,:loop<<unique>>
+		JP D
+	:break<<unique>>
 	!popa()
 %end

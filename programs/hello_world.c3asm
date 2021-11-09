@@ -1,0 +1,10 @@
+#include std
+
+!clearReg(0x1111)
+
+!print(:str)
+STOP
+
+:str
+STR "Hello, World!"
+DB 0
