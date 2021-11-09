@@ -1,17 +1,23 @@
 #include std
 
-LD A,0x6969
-PUSH A
-LD B,0xFFFF
-SWAP C
-LD A,[B]
-SWAP C
-CMP A,C
-LD D,:succ
-JP Z,D
-LD D,:fail
-JP D
-POP A
+%assertPop(v)
+	LD A,${v}
+	POP B
+	CMP A,B
+	LD A,:fail
+	JP NZ,A
+%end
+
+%assertPop4(a,b,c,d)
+	!assertPop(${a})
+	!print(:ass1)
+	!assertPop(${b})
+	!print(:ass2)
+	!assertPop(${c})
+	!print(:ass3)
+	!assertPop(${d})
+	!print(:ass4)
+%end
 
 //set up stack
 !loadReg(0x1234,0x5678,0x7654,0x3210)
@@ -19,6 +25,17 @@ POP A
 !clearReg(0)
 !assertPop4(0x1234,0x5678,0x7654,0x3210)
 
-STOP
-
 !succfail()
+
+:ass1
+STR "1 OK\n"
+DB 0
+:ass2
+STR "2 OK\n"
+DB 0
+:ass3
+STR "3 OK\n"
+DB 0
+:ass4
+STR "4 OK\n"
+DB 0

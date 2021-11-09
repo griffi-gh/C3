@@ -1,0 +1,8 @@
+LD A,0xfffe
+LD [A],A
+
+LD A,0x1234
+PUSH A
+LD A,0
+POP A
+STOP
