@@ -1,8 +1,6 @@
-LD A,0xfffe
-LD [A],A
-
+PUSH A
 LD A,0x1234
 PUSH A
-LD A,0
+LD A,0xeeee
 POP A
 STOP

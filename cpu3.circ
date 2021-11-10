@@ -106,8 +106,7 @@
       <a name="addrWidth" val="15"/>
       <a name="appearance" val="classic"/>
       <a name="contents">addr/data: 15 16
-9 fffe b 9 1234 81 9 0
-82 2
+81 9 1234 81 9 eeee 82 2
 </a>
       <a name="dataWidth" val="16"/>
     </comp>
@@ -230,6 +229,9 @@
       <a name="output" val="true"/>
       <a name="radix" val="16"/>
       <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(2360,930)" name="Pull Resistor">
+      <a name="facing" val="west"/>
     </comp>
     <comp lib="0" loc="(260,690)" name="Pin">
       <a name="appearance" val="NewPins"/>
@@ -810,24 +812,21 @@
     <comp lib="1" loc="(2360,930)" name="Controlled Buffer">
       <a name="facing" val="south"/>
     </comp>
-    <comp lib="1" loc="(2370,960)" name="Controlled Buffer">
+    <comp lib="1" loc="(2360,970)" name="Controlled Buffer">
+      <a name="control" val="left"/>
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="1" loc="(2380,970)" name="Controlled Buffer">
       <a name="facing" val="south"/>
     </comp>
     <comp lib="1" loc="(2460,310)" name="AND Gate">
       <a name="size" val="30"/>
     </comp>
-    <comp lib="1" loc="(2740,1800)" name="Controlled Buffer">
-      <a name="control" val="left"/>
-      <a name="facing" val="west"/>
+    <comp lib="1" loc="(2740,1780)" name="Controlled Buffer">
+      <a name="facing" val="north"/>
     </comp>
-    <comp lib="1" loc="(2760,1800)" name="Buffer">
-      <a name="facing" val="west"/>
-    </comp>
-    <comp lib="1" loc="(2780,1770)" name="OR Gate">
+    <comp lib="1" loc="(2770,1770)" name="OR Gate">
       <a name="size" val="30"/>
-    </comp>
-    <comp lib="1" loc="(2780,1800)" name="Buffer">
-      <a name="facing" val="west"/>
     </comp>
     <comp lib="1" loc="(280,960)" name="OR Gate">
       <a name="inputs" val="3"/>
@@ -968,7 +967,7 @@
     <comp lib="4" loc="(2820,1770)" name="Counter">
       <a name="appearance" val="classic"/>
       <a name="label" val="SP"/>
-      <a name="max" val="0xfffe"/>
+      <a name="max" val="0xffff"/>
       <a name="width" val="16"/>
     </comp>
     <comp lib="4" loc="(2890,1670)" name="D Flip-Flop">
@@ -983,6 +982,7 @@
     </comp>
     <comp lib="4" loc="(3070,1550)" name="Register">
       <a name="appearance" val="classic"/>
+      <a name="label" val="ALU_FRZ"/>
       <a name="trigger" val="falling"/>
       <a name="width" val="16"/>
     </comp>
@@ -1109,9 +1109,6 @@
     </comp>
     <comp lib="8" loc="(281,1012)" name="Text">
       <a name="text" val="i hate this part"/>
-    </comp>
-    <comp lib="8" loc="(3056,1522)" name="Text">
-      <a name="text" val="ALU FRZ register"/>
     </comp>
     <comp lib="8" loc="(3316,1049)" name="Text">
       <a name="text" val="RST"/>
@@ -1243,9 +1240,7 @@
       <a name="font" val="SansSerif bold 9"/>
       <a name="text" val="vv skip additional clocks"/>
     </comp>
-    <comp loc="(2820,1800)" name="RisingEdge">
-      <a name="facing" val="west"/>
-    </comp>
+    <comp loc="(2840,1780)" name="RisingEdge"/>
     <comp loc="(2930,1550)" name="ALU">
       <a name="labelvisible" val="false"/>
     </comp>
@@ -1835,12 +1830,13 @@
     <wire from="(2350,940)" to="(2350,1120)"/>
     <wire from="(2360,1140)" to="(2860,1140)"/>
     <wire from="(2360,880)" to="(2360,890)"/>
-    <wire from="(2360,930)" to="(2360,940)"/>
-    <wire from="(2360,940)" to="(2360,950)"/>
-    <wire from="(2360,940)" to="(2370,940)"/>
-    <wire from="(2360,950)" to="(2360,1140)"/>
-    <wire from="(2370,1760)" to="(2740,1760)"/>
-    <wire from="(2370,960)" to="(2370,1760)"/>
+    <wire from="(2360,930)" to="(2360,950)"/>
+    <wire from="(2360,950)" to="(2370,950)"/>
+    <wire from="(2360,970)" to="(2360,1140)"/>
+    <wire from="(2370,950)" to="(2370,960)"/>
+    <wire from="(2370,950)" to="(2380,950)"/>
+    <wire from="(2380,1760)" to="(2740,1760)"/>
+    <wire from="(2380,970)" to="(2380,1760)"/>
     <wire from="(240,840)" to="(240,950)"/>
     <wire from="(240,840)" to="(340,840)"/>
     <wire from="(240,950)" to="(250,950)"/>
@@ -1863,20 +1859,19 @@
     <wire from="(2740,1470)" to="(3100,1470)"/>
     <wire from="(2740,1750)" to="(2740,1760)"/>
     <wire from="(2740,1750)" to="(2800,1750)"/>
-    <wire from="(2740,1760)" to="(2750,1760)"/>
-    <wire from="(2740,1780)" to="(2740,1800)"/>
-    <wire from="(2740,1780)" to="(2750,1780)"/>
+    <wire from="(2740,1800)" to="(2750,1800)"/>
     <wire from="(2750,1360)" to="(2750,1460)"/>
     <wire from="(2750,1460)" to="(3090,1460)"/>
-    <wire from="(2750,1810)" to="(2850,1810)"/>
+    <wire from="(2750,1790)" to="(2750,1800)"/>
+    <wire from="(2750,1800)" to="(2840,1800)"/>
     <wire from="(2760,1340)" to="(2760,1450)"/>
     <wire from="(2760,1450)" to="(3080,1450)"/>
     <wire from="(2770,1320)" to="(2770,1440)"/>
     <wire from="(2770,1440)" to="(3070,1440)"/>
+    <wire from="(2770,1770)" to="(2770,1790)"/>
+    <wire from="(2770,1790)" to="(2800,1790)"/>
     <wire from="(2780,1300)" to="(2780,1430)"/>
     <wire from="(2780,1430)" to="(3060,1430)"/>
-    <wire from="(2780,1770)" to="(2780,1790)"/>
-    <wire from="(2780,1790)" to="(2800,1790)"/>
     <wire from="(2790,1280)" to="(2790,1420)"/>
     <wire from="(2790,1420)" to="(3050,1420)"/>
     <wire from="(280,730)" to="(280,860)"/>
@@ -1884,20 +1879,16 @@
     <wire from="(280,960)" to="(290,960)"/>
     <wire from="(2800,1260)" to="(2800,1410)"/>
     <wire from="(2800,1410)" to="(3220,1410)"/>
-    <wire from="(2800,1800)" to="(2820,1800)"/>
     <wire from="(2810,1020)" to="(2810,1030)"/>
     <wire from="(2810,1030)" to="(2860,1030)"/>
     <wire from="(2810,1040)" to="(2810,1050)"/>
     <wire from="(2810,1050)" to="(2860,1050)"/>
     <wire from="(2810,1240)" to="(2810,1400)"/>
     <wire from="(2810,1400)" to="(3210,1400)"/>
-    <wire from="(2810,1790)" to="(2810,1820)"/>
-    <wire from="(2810,1820)" to="(3340,1820)"/>
+    <wire from="(2810,1790)" to="(3340,1790)"/>
     <wire from="(2820,1220)" to="(2820,1390)"/>
     <wire from="(2820,1390)" to="(3200,1390)"/>
     <wire from="(2820,1770)" to="(2830,1770)"/>
-    <wire from="(2820,1780)" to="(2820,1790)"/>
-    <wire from="(2820,1780)" to="(2850,1780)"/>
     <wire from="(2830,1200)" to="(2830,1380)"/>
     <wire from="(2830,1380)" to="(3190,1380)"/>
     <wire from="(2830,1740)" to="(2830,1770)"/>
@@ -1907,15 +1898,13 @@
     <wire from="(2840,1650)" to="(3040,1650)"/>
     <wire from="(2840,1720)" to="(2840,1770)"/>
     <wire from="(2840,1770)" to="(3050,1770)"/>
-    <wire from="(2840,1800)" to="(2850,1800)"/>
+    <wire from="(2840,1780)" to="(2840,1800)"/>
     <wire from="(2850,1160)" to="(2850,1350)"/>
     <wire from="(2850,1350)" to="(2890,1350)"/>
     <wire from="(2850,1620)" to="(2850,1640)"/>
     <wire from="(2850,1640)" to="(2950,1640)"/>
     <wire from="(2850,1700)" to="(2850,1760)"/>
     <wire from="(2850,1760)" to="(3080,1760)"/>
-    <wire from="(2850,1780)" to="(2850,1800)"/>
-    <wire from="(2850,1800)" to="(2850,1810)"/>
     <wire from="(2860,1020)" to="(2860,1030)"/>
     <wire from="(2860,1020)" to="(2870,1020)"/>
     <wire from="(2860,1040)" to="(2860,1050)"/>
@@ -2082,7 +2071,7 @@
     <wire from="(330,930)" to="(380,930)"/>
     <wire from="(3300,1210)" to="(3310,1210)"/>
     <wire from="(3310,1210)" to="(3310,1370)"/>
-    <wire from="(3340,1150)" to="(3340,1820)"/>
+    <wire from="(3340,1150)" to="(3340,1790)"/>
     <wire from="(340,820)" to="(340,830)"/>
     <wire from="(340,840)" to="(340,850)"/>
     <wire from="(340,840)" to="(350,840)"/>
@@ -2206,7 +2195,7 @@
     <wire from="(720,1080)" to="(1130,1080)"/>
     <wire from="(720,1680)" to="(1550,1680)"/>
     <wire from="(720,1720)" to="(1570,1720)"/>
-    <wire from="(720,1760)" to="(2370,1760)"/>
+    <wire from="(720,1760)" to="(2380,1760)"/>
     <wire from="(720,1780)" to="(2230,1780)"/>
     <wire from="(720,250)" to="(720,500)"/>
     <wire from="(720,250)" to="(990,250)"/>
@@ -2867,14 +2856,14 @@
     </appear>
     <comp lib="0" loc="(40,10)" name="Pin">
       <a name="appearance" val="classic"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
       <a name="pull" val="down"/>
       <a name="radix" val="16"/>
       <a name="width" val="16"/>
     </comp>
     <comp lib="0" loc="(40,10)" name="Pin">
       <a name="appearance" val="classic"/>
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
       <a name="pull" val="down"/>
       <a name="radix" val="16"/>
       <a name="width" val="16"/>
