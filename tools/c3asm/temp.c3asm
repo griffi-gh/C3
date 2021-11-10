@@ -1,6 +1,0 @@
-PUSH A
-LD A,0x1234
-PUSH A
-LD A,0xeeee
-POP A
-STOP

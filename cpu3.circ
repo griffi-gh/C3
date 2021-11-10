@@ -1095,7 +1095,7 @@
     <comp lib="8" loc="(2202,712)" name="Text">
       <a name="text" val="PUSH r"/>
     </comp>
-    <comp lib="8" loc="(2339,681)" name="Text">
+    <comp lib="8" loc="(2278,710)" name="Text">
       <a name="text" val="POP r"/>
     </comp>
     <comp lib="8" loc="(2677,1497)" name="Text">
@@ -2856,14 +2856,14 @@
     </appear>
     <comp lib="0" loc="(40,10)" name="Pin">
       <a name="appearance" val="classic"/>
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
       <a name="pull" val="down"/>
       <a name="radix" val="16"/>
       <a name="width" val="16"/>
     </comp>
     <comp lib="0" loc="(40,10)" name="Pin">
       <a name="appearance" val="classic"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
       <a name="pull" val="down"/>
       <a name="radix" val="16"/>
       <a name="width" val="16"/>
