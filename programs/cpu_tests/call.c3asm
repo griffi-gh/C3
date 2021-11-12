@@ -1,0 +1,5 @@
+LD A,:call
+CALL A
+LD C,0x1234
+CMP B,C
+JP Z,:succ
