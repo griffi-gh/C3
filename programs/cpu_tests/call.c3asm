@@ -1,5 +1,21 @@
-LD A,:call
-CALL A
-LD C,0x1234
-CMP B,C
-JP Z,:succ
+#include std
+
+LD A,0xeeee
+PUSH A
+
+LD D,:call
+CALL D
+:i
+STOP
+
+:call
+POP D
+LD A,:i
+SUB A,D
+LD C,:succ
+JP Z,C
+LD C,:fail
+JP NZ,C
+STOP
+
+!succfail()

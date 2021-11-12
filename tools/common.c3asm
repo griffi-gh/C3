@@ -25,6 +25,7 @@
 %fail()
 	STOP
 	:fail
+		!pusha()
 		LD A,102
 		LD B,97
 		IOWRT A
@@ -41,7 +42,9 @@
 		LD B,0
 		LD C,B
 		LD D,B
-		!stoploop()
+		!popa()
+		STOP
+		STOP
 %end
 
 %succfail()

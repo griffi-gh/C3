@@ -1,2 +1,4 @@
 *.c3bin
 .c3bin
+temp.c3asm
+temp.c3bin
