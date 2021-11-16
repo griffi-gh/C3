@@ -1,0 +1,23 @@
+{
+  "name": "c3sim",
+  "version": "1.0.0",
+  "description": "The C3 CPU emulator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/griffi-gh/C3.git"
+  },
+  "keywords": [
+    "c3",
+    "cpu"
+  ],
+  "author": "griffi-gh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/griffi-gh/C3/issues"
+  },
+  "homepage": "https://github.com/griffi-gh/C3#readme"
+}

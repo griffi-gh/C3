@@ -2,4 +2,4 @@
 @echo off
 setlocal
 cd /d "%~dp0/asm"
-node ./asm.js "%1"
+node ./index.js "%1"
