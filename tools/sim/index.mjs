@@ -49,5 +49,18 @@ function parseArgs(a = process.argv) {
 }
 const arg = parseArgs();
 
-console.log(arg.path);
-console.log(arg.initialState.join(', '));
+class IODevice {
+  constructor() {}
+  io_trig() {}
+  io_read() { return 0; }
+}
+
+class IOManager {
+  constructor() {
+    this.device = new IODevice();
+    this.value = 0;  
+  }
+}
+
+console.log('Loading file: ' + arg.path);
+console.log('Registers: ' + arg.initialState.join(', '));
