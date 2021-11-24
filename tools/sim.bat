@@ -2,4 +2,4 @@
 @echo off
 setlocal
 rem cd /d "%~dp0/sim"
-node "%~dp0/sim" "%1"
+node "%~dp0/sim" %*
