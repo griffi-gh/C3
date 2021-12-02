@@ -19,8 +19,8 @@ function parseArgs(a = process.argv) {
     .option('state',{
       alias: 's',
       describe: 'Initial register state',
-      type: 'string',
-      default: '0,0,0,0'
+      type: 'array',
+      default: [0, 0, 0, 0]
     })
     .option('A',{
       describe: 'Initial A register state',
@@ -34,33 +34,23 @@ function parseArgs(a = process.argv) {
       describe: 'Initial C register state',
       type: 'number',
     })
-    .option('D',{
+    .option('D', {
       describe: 'Initial D register state',
       type: 'number',
+    })
+    .option('device', {
+
     })
     .parse();
   return {
     path: pathlib.resolve(process.cwd(), argv._[0]),
-    initialState: Array.from({...(argv.state.split(',')),length:4}, v => v??0).map((longVal,i) => {
+    initialState: Array.from({...argv.state, length:4}, v => v ?? 0).map((longVal,i) => {
       let shortVal = argv[['A','B','C','D'][i]];
-      return (shortVal ?? longVal)|0;
+      return parseInt(shortVal ?? longVal);
     })
   };
 }
 const arg = parseArgs();
-
-class IODevice {
-  constructor() {}
-  io_trig() {}
-  io_read() { return 0; }
-}
-
-class IOManager {
-  constructor() {
-    this.device = new IODevice();
-    this.value = 0;  
-  }
-}
 
 console.log('Loading file: ' + arg.path);
 console.log('Registers: ' + arg.initialState.join(', '));
