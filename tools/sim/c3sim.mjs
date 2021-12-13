@@ -3,7 +3,7 @@ import * as fs from 'fs';
 export class IODevice {
   constructor(man, params) {
     this.params = params ?? {};
-    if(params == none) {
+    if(params == null) {
       this.params.notPassed = true;
     }
     this.manager = man;
@@ -23,7 +23,7 @@ devices.tty = class extends IODevice {
     this.lastKey = '';
     process.stdin.setRawMode(true);
     process.stdin.resume();
-    stdin.on('data', key => {
+    process.stdin.on('data', key => {
       if(key === '\u0003') process.exit();
       this.lastKey = key;
     });
@@ -81,12 +81,16 @@ export class MMU {
     this.rom = new Uint16Array(0x8000).fill(0);
     this.ram = new Uint16Array(0x8000).fill(0);
     if(rom) this.load(rom);
+    //console.log(Array.from(this.rom).map(v => v.toString(16)).join(','));
+    console.log('MMU init done');
   }
   load(rom) {
-    Array.from(rom).forEach((v,i) => {
+    console.log('Processing ROM data (size = ' + rom.length + ')')
+    for(let i = 0; i < rom.length; i++) {
+      const v = rom[i];
       if(!(i & 1)) this.rom[i] = 0;
-      this.rom[i >> 1] |= this.rom << ((i & 1) ? 0 : 8);
-    });
+      this.rom[i >> 1] |= rom[i] << ((i & 1) ? 0 : 8);
+    };
   }
   read(a) {
     return ((a & 0x8000) ? this.ram : this.rom)[a & 0x7fff];
@@ -96,6 +100,11 @@ export class MMU {
     this.ram[a & 0x7fff] = v;
   }
 }
+
+export const ALU_ADD = 0;
+export const ALU_SUB = 1;
+export const ALU_MUL = 2;
+export const ALU_CMP = 3;
 
 export default class C3State {
   constructor(param) {
@@ -110,9 +119,11 @@ export default class C3State {
       zero: false,
     }
     this.pc = 0;
+    this.sp = 0xffff;
     this.state = 0;
   }
   step() {
+    if(this.state) return;
     const opcode = this.mmu.read(this.pc++);
     const sel = !!(opcode & 0x80);
     const reg = opcode & 0x60;
@@ -146,11 +157,84 @@ export default class C3State {
           case 0x0A: //LD A,[r]
             this.reg.a = this.mmu.read(this.reg[reg]);
             return 3;
+          case 0x0B:
+            this.mmu.write(this.reg[reg], this.reg.a);
+            return 2;
+          case 0x0C: //ADD A,r
+          case 0x0D: //SUB A,r
+          case 0x0E: //MUL A,r
+          case 0x0F: //CMP A,r
+            let aluA = this.reg.a;
+            let aluB = this.reg[reg];
+            let aluOperation = instr - 0x0B;
+            switch(aluOperation) {
+              case ALU_ADD:
+                aluA += aluB;
+                this.flags.carry = aluA > 0xffff;
+                break;
+              case ALU_SUB:
+                aluA -= aluB;
+                this.flags.carry = aluA < 0;
+                break;
+              case ALU_MUL:
+                aluA *= aluB;
+                break;
+              case ALU_CMP:
+                this.flags.carry = false;
+                if(aluA > aluB) {
+                  aluA = 2;
+                  this.flags.carry = true;
+                } else if(aluA < aluB) {
+                  aluA = 1;
+                }
+            }
+            this.reg.a = aluA & 0xffff;
+            this.flags.zero = (this.reg.a == 0);
+            return 3;
+          case 0x10: // JP r
+            this.pc = this.reg[reg];
+            return 2;
+          case 0x11: // JP Z,r
+          case 0x12: // JP NZ,r
+          case 0x13: // JP C,r
+          case 0x14: // JP NC,r
+            if(this.flags[(instr >= 0x13) ? 'carry' : 'zero'] ^ (1-(instr & 1))) {
+              this.pc = this.reg[reg];
+            }
+            return 2;
+          case 0x15: //IO_HALT
+            this.state = 2;
+            return 3;
+          case 0x16: //IO_TRIG
+            this.manager.device.onTrigger();
+            return 3;
+          case 0x17: //IO_READ
+            this.reg[reg] = this.manager.device.output;
+            return 3;
+          case 0x18: //IO_WRT
+            this.manager.value = this.reg[reg];
+            return 3;
           default:
             break;
         }
       } else {
-
+        switch(instr) {
+          case 0x01: //PUSH r
+            this.mmu.write(this.sp--, this.reg[reg]);
+            return 3;
+          case 0x02: //POP r
+            this.reg[reg] = this.mmu.read(++this.sp);
+            return 3;
+          case 0x03: //CALL r
+            this.mmu.write(this.sp--, this.pc);
+            this.pc = this.reg[reg];
+            return 3;
+          case 0x04: //RET
+            this.pc = this.mmu.read(++this.sp);
+            return 3;
+          default:
+            break;
+        }
       }
       return 3; //invalid instruction wastes all two full cycles
     }
