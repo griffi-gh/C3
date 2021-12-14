@@ -37,8 +37,17 @@ devices.tty = class extends IODevice {
         this.output = this.lastKey.charCodeAt(0) & 0b1111111;
         break;
       default:
-        io.stdout.write(String.fromCharCode(this.manager.value & 0b1111111))
+        process.stdout.write(String.fromCharCode(this.manager.value & 0b1111111))
     }
+  }
+}
+devices.ttyBasic = class extends IODevice {
+  constructor(...a) {
+    super(...a);
+    console.log('READY\n');
+  }
+  onTrigger() {
+    process.stdout.write(String.fromCharCode(this.manager.value & 0b1111111));
   }
 }
 
@@ -58,7 +67,7 @@ export class IOManager {
   }
 }
 
-class Registers extends Uint8Array {
+class Registers extends Uint16Array {
   constructor(initialState) {
     if(initialState != null) {
       super([0,0,0,0].map((v,i) => initialState[i] ?? v));
@@ -66,14 +75,14 @@ class Registers extends Uint8Array {
       super([0,0,0,0]);
     }
   }
-  set a(v) { this[0] = v; }
-  set b(v) { this[1] = v; }
-  set c(v) { this[2] = v; }
-  set d(v) { this[3] = v; }
-  get a() { return this[0]; }
-  get b() { return this[1]; }
-  get c() { return this[2]; }
-  get d() { return this[3]; }
+  set a(v) { this[0] = v & 0xffff; }
+  set b(v) { this[1] = v & 0xffff; }
+  set c(v) { this[2] = v & 0xffff; }
+  set d(v) { this[3] = v & 0xffff; }
+  get a() { return this[0] & 0xffff; }
+  get b() { return this[1] & 0xffff; }
+  get c() { return this[2] & 0xffff; }
+  get d() { return this[3] & 0xffff; }
 }
 
 export class MMU {
@@ -122,11 +131,28 @@ export default class C3State {
     this.sp = 0xffff;
     this.state = 0;
   }
+  log() {
+    const op = this.mmu.read(this.pc);
+    const opT = String.fromCharCode('A'.charCodeAt() + ((op & 0x60) >> 5));
+    const opS = !!(op & 0x80);
+    const p = (v, p = 4) => '$' + v.toString(16).padStart(p, '0');
+    console.log(
+      '\tDBG:: [REG: ' +
+      p(this.reg.a) + ' ' +
+      p(this.reg.b) + ' ' +
+      p(this.reg.c) + ' ' +
+      p(this.reg.d) + ' ' +
+      '] [PC: ' + p(this.pc) + '] ' +
+      '[SP: ' + p(this.sp) + '] ' +
+      '[OP: ' + (opS | 0) + ' ' + p(op & 0x1F , 2) + ' on ' + opT + ' || RAW : '+ p(op) +'] ' +
+      ((this.state == 2) ? '[HALT] ': '')
+    )
+  }
   step() {
     if(this.state) return;
     const opcode = this.mmu.read(this.pc++);
     const sel = !!(opcode & 0x80);
-    const reg = opcode & 0x60;
+    const reg = (opcode & 0x60) >> 5;
     const instr = opcode & 0x1f;
     if(instr === 0x00) {
       return 1; //nop only takes no cycles except fetch

@@ -44,10 +44,17 @@ function parseArgs(a = process.argv) {
       alias: 'd',
       describe: 'Type of device to connect',
       type: 'string',
-      default: 'tty',
+      default: 'ttyBasic',
+    })
+    .option('debug', {
+      alias: 'b',
+      describe: 'Log register state',
+      type: 'boolean',
+      default: false
     })
     .parse();
   return {
+    debug: argv.debug,
     device: argv.device,
     path: pathlib.resolve(process.cwd(), argv._[0]),
     initialState: Array.from({...argv.state, length:4}, v => v ?? 0).map((longVal,i) => {
@@ -65,6 +72,12 @@ console.log('Starting cpu');
 const state = new C3(arg);
 console.log('Initializing device ('+arg.device+')');
 state.manager.connectDevice(arg.device);
+let cycles = 0;
 while(true) {
-  state.step();
+  if(arg.debug) state.log();
+  cycles += state.step();
+  if(state.state === 1) {
+    break;
+  }
 }
+console.log('\n\nExecution stopped ('+cycles+' cpu cycles)');
